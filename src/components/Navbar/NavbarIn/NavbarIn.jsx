@@ -1,18 +1,17 @@
 import "../Navbar.css";
 import { SettingOutlined } from "@ant-design/icons";
 import { Layout, Button, Menu } from "antd";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 const { Header } = Layout;
 
 export default function NavbarIn() {
-  let page = useLocation().pathname.split("/")[1];
+  let page = useLocation().pathname.split("/")[2];
   
   const items = [
     { key: "dashboard", label: <Link to="/user/dashboard" className="link">Dashboard</Link>},
     { key: "tracking", label: <Link to="/user/tracking" className="link">Tracking</Link> },
-    { key: "edit", label: <Link to="/user/edit" className="link">Edit</Link> },
     { key: "goals", label: <Link to="/user/goals" className="link">Goals</Link> },
+    { key: "edit", label: <Link to="/user/edit" className="link">Edit</Link> },
   ];
 
   return (
@@ -24,8 +23,7 @@ export default function NavbarIn() {
 
       <Menu
         className="menu"
-        // selectedKeys={page}
-        defaultSelectedKeys={page}
+        selectedKeys={page}
         theme="light"
         mode="horizontal"
         items={items}
