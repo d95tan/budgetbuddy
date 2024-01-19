@@ -6,7 +6,9 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 
+//* router requires
 const usersRouter = require("./routes/usersRouter")
+const logsRouter = require("./routes/logsRouter")
 
 const app = express();
 
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 app.use("/api/users", usersRouter);
+app.use("/api/logs", logsRouter);
 
 //* routes block
 app.get("/api/", (req, res) => {
