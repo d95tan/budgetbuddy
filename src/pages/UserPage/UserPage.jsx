@@ -1,12 +1,24 @@
 import { Outlet } from "react-router-dom";
 import NavbarIn from "../../components/Navbar/NavbarIn/NavbarIn";
+import { useEffect, useState } from "react";
+import { getLogs } from "../../utilities/logsService";
 
 export default function UserPage() {
+
+  const [logs, setLogs] = useState([])
+
+  useEffect(() => {
+    (async function () {
+      const data = await getLogs();
+      setLogs(data);
+    })()
+  }, [])
+
   return (
     <>
       <NavbarIn />
       <h1>User Page</h1>
-      <Outlet />
+      <Outlet context={[logs, setLogs]} />
     </>
   )
 }
