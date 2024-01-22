@@ -28,12 +28,12 @@ export default function LoginForm() {
     autoComplete="off"
   >
     <Form.Item
-      label="Username"
-      name="username"
+      label="Email"
+      name="email"
       rules={[
         {
           required: true,
-          message: 'Please input your username!',
+          message: 'Please input your email address',
         },
       ]}
     >
@@ -46,7 +46,7 @@ export default function LoginForm() {
       rules={[
         {
           required: true,
-          message: 'Please input your password!',
+          message: 'Please input your password',
         },
       ]}
     >
@@ -73,6 +73,7 @@ export default function LoginForm() {
       <Button type="primary" htmlType="submit">
         Submit
       </Button>
+      <p> <i>Don't have an account? Sign up now </i> </p>    
     </Form.Item>
   </Form>
     </>
