@@ -6,7 +6,6 @@ export default function AuthPage() {
   return (
     <>
       <NavbarOut />
-      <h3> Login </h3>
       <LoginForm />
       <SignupForm />
     </>
