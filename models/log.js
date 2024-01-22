@@ -43,7 +43,37 @@ const logSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
+
+logSchema.virtual("totalSavings").get(function () {
+  let total = 0;
+  for (let { amount } of this.savings) {
+    total += amount;
+  }
+  return total;
+});
+
+logSchema.virtual("totalInvestments").get(function () {
+  let total = 0;
+  for (let { amount } of this.investments) {
+    total += amount;
+  }
+  return total;
+});
+
+logSchema.virtual("totalLiabilities").get(function () {
+  let total = 0;
+  for (let { amount } of this.liabilities) {
+    total += amount;
+  }
+  return total;
+});
+
+logSchema.virtual("total").get(function () {
+  let total = this.totalSavings + this.totalInvestments - this.totalLiabilities;
+  return total;
+});
 
 module.exports = model("Log", logSchema);
