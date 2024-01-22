@@ -36,27 +36,27 @@ export function getColumnHeaders(logs) {
   
   const allAccNames = [
     { Title: "Date", dataIndex: "date", width: "10%" },
-    ...savingsAccNames.map((name) => {
-      return { title: name, dataIndex: ["savings",name, "amount"], editable: true, width};
+    ...savingsAccNames.map((name, i) => {
+      return { title: name, dataIndex: ["savings",i, "amount"], editable: true, width};
     }),
-    ...investmentAccNames.map((name) => {
+    ...investmentAccNames.map((name, i) => {
       return {
         title: name,
-        dataIndex: ["investments", name],
+        dataIndex: ["investments", i, "amount"],
         editable: true,
         width,
       };
     }),
-    ...liabilityAccNames.map((name) => {
+    ...liabilityAccNames.map((name, i) => {
       return {
         title: name,
-        dataIndex: ["liabilities",name],
+        dataIndex: ["liabilities",i, "amount"],
         editable: true,
         width,
       };
     }),
   ];
-
+  console.log(allAccNames);
   return allAccNames;
 }
 
@@ -77,6 +77,6 @@ export function flattenLogs(logs) {
     }
     flattened.push(data);
   });
-  console.log(flattened)
+  // console.log(flattened)
   return flattened;
 }
