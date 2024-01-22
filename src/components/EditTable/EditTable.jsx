@@ -1,8 +1,8 @@
 import { useContext, createContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
-import { useOutletContext } from "react-router-dom";
-import "./EditTable.css"
-import { flattenLogs, getColumnHeaders } from "../../utilities/logsService";
+import { Button, Form, Input, Table } from "antd";
+import "./EditTable.css";
+import { flattenLogs, getColumnHeaders, packageLogs, updateLogs } from "../../utilities/logsService";
+import { SaveOutlined } from "@ant-design/icons";
 
 const EditableContext = createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -16,7 +16,7 @@ const EditableRow = ({ index, ...props }) => {
   );
 };
 const EditableCell = ({
-  title,  
+  title,
   editable,
   children,
   dataIndex,
@@ -82,16 +82,11 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-export default function EditTable({logs, setLogs}) {
-  
-  const [data, setData] = useState()
+export default function EditTable({ logs, setLogs }) {
+  const [data, setData] = useState(flattenLogs(logs));
+  const [updatedIds, setUpdatedIds] = useState([])
 
-  useEffect(() => {
-    setData(flattenLogs(logs))
-  },[logs])
-
-  const columnHeaders = getColumnHeaders(logs)
-
+  const columnHeaders = getColumnHeaders(logs);
 
   const columns = columnHeaders.map((col) => {
     if (!col.editable) {
@@ -108,15 +103,25 @@ export default function EditTable({logs, setLogs}) {
       }),
     };
   });
-  
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const updatedLogs = packageLogs(logs, data, updatedIds);
+    const response = updateLogs(updatedLogs)
+    // setLogs()
+    // setUpdatedIds([])
+  }
+
   const handleSave = (row) => {
     const newData = [...data];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
+
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
+    setUpdatedIds([...updatedIds, data[index].id])
     setData(newData);
   };
 
@@ -129,11 +134,12 @@ export default function EditTable({logs, setLogs}) {
 
   return (
     <>
+      <Button type="primary" className="save-button" onClick={handleClick} disabled={!updatedIds.length}><SaveOutlined /> Save</Button>
       <Table
         components={components}
         rowClassName={() => "editable-row"}
         bordered
-        dataSource={logs}
+        dataSource={data}
         columns={columns}
       />
     </>
