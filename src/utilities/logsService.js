@@ -37,12 +37,12 @@ export function getColumnHeaders(logs) {
   const allAccNames = [
     { Title: "Date", dataIndex: "date", width: "10%" },
     ...savingsAccNames.map((name) => {
-      return { title: name, dataIndex: name, editable: true, width};
+      return { title: name, dataIndex: ["savings",name, "amount"], editable: true, width};
     }),
     ...investmentAccNames.map((name) => {
       return {
         title: name,
-        dataIndex: name,
+        dataIndex: ["investments", name],
         editable: true,
         width,
       };
@@ -50,7 +50,7 @@ export function getColumnHeaders(logs) {
     ...liabilityAccNames.map((name) => {
       return {
         title: name,
-        dataIndex: name,
+        dataIndex: ["liabilities",name],
         editable: true,
         width,
       };
@@ -63,11 +63,11 @@ export function getColumnHeaders(logs) {
 export function flattenLogs(logs) {
   const flattened = [];
   logs.forEach((log) => {
-    const data = {};
+    const data = { savings: {} };
     data.key = log.date;
     data.date = log.date;
     for (let account of log.savings) {
-      data[account.name] = numToCurrency(account.amount);
+      data.savings[account.name] = numToCurrency(account.amount);
     }
     for (let account of log.investments) {
       data[account.name] = numToCurrency(account.amount);
@@ -77,6 +77,6 @@ export function flattenLogs(logs) {
     }
     flattened.push(data);
   });
-  // console.log(flattened)
+  console.log(flattened)
   return flattened;
 }

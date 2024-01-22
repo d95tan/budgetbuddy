@@ -11,8 +11,8 @@ import AuthPage from "../AuthPage/AuthPage";
 
 function App() {
   //*J,21/1,2100: State variable & setter function declaration 
-  const [user, setUser] = useState(null);
-  console.log(user);
+  const [user, setUser] = useState(true);
+  // console.log(user);
 
   //* J,21/1,2100: holding code for Login page
   if (user === null) {

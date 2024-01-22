@@ -16,7 +16,7 @@ const EditableRow = ({ index, ...props }) => {
   );
 };
 const EditableCell = ({
-  title,
+  title,  
   editable,
   children,
   dataIndex,
@@ -133,7 +133,7 @@ export default function EditTable({logs, setLogs}) {
         components={components}
         rowClassName={() => "editable-row"}
         bordered
-        dataSource={data}
+        dataSource={logs}
         columns={columns}
       />
     </>
