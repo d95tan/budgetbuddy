@@ -10,8 +10,6 @@ export default function LoginForm() {
   return (
     <>
       <h3> Login </h3>
-      <p><i>Todo: please insert route on landing page </i></p>
-
       <Form
         name="basic"
         labelCol={{
@@ -76,10 +74,7 @@ export default function LoginForm() {
           <Button type="primary" htmlType="submit">
             Login
           </Button>
-          <p>
-            {" "}
-            <i>Don't have an account? Sign up now </i>{" "}
-          </p>
+          
         </Form.Item>
       </Form>
     </>

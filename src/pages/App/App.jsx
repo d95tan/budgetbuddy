@@ -8,6 +8,7 @@ import TrackingPage from "../UserPage/TrackingPage/TrackingPage";
 import EditPage from "../UserPage/EditPage/EditPage";
 import GoalsPage from "../UserPage/GoalsPage/GoalsPage"
 import AuthPage from "../AuthPage/AuthPage";
+import SignupPage from "../SignupPage/SignupPage";
 
 function App() {
   //*J,21/1,2100: State variable & setter function declaration 
@@ -18,7 +19,12 @@ function App() {
   if (user === null) {
     return (
       <>
-        <AuthPage />
+        <Routes>
+        <Route path="/" element={<LandingPage  />} />
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+
+        </Routes>
       </>
     );
   } 
@@ -26,7 +32,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/" element={<LandingPage  />} /> */}
         <Route path="user" element={<UserPage />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="tracking" element={<TrackingPage />} />
@@ -39,3 +45,15 @@ function App() {
 }
 
 export default App;
+
+
+//? J: 24/1 0050: initial Return code
+{/* <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="user" element={<UserPage />}>
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="tracking" element={<TrackingPage />} />
+          <Route path="edit" element={<EditPage />} />
+          <Route path="goals" element={<GoalsPage />} />
+        </Route>
+      </Routes>  */}

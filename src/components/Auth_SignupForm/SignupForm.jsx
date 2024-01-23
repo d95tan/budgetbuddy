@@ -10,7 +10,6 @@ export default function SignupForm() {
   return (
     <>
       <h3> Sign Up </h3>
-      <p><i>Todo: please insert route on landing page </i></p>
       <Form
         name="basic"
         labelCol={{
