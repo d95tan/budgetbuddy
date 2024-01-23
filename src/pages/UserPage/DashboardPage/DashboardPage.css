@@ -1,0 +1,49 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 1px solid red;
+}
+
+.dashboard-small-graphs {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  border: 1px solid red;
+}
+
+.dashboard-left-container {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  align-items: center;
+  border: 1px solid red;
+}
+
+.dashboard-top-left-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid red;
+  width: 100%;
+  height: 75%
+  
+}
+
+.dashboard-numbers {
+  border: 1px solid red;
+}
+
+.paired {
+  display: flex;
+  flex-direction: row;
+  align-items: last baseline;
+  justify-content: start;
+  gap: 0.5rem;
+  padding: 0.4rem
+}
+
+p {
+  border: 1px solid red;
+}

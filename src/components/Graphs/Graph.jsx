@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-export default function Graph({ logs }) {
+export default function Graph({ labels, values, color }) {
   const options = {
     responsive: true,
     plugins: {
@@ -27,33 +27,23 @@ export default function Graph({ logs }) {
         position: "top",
       },
       title: {
-        display: true,
-        text: "Chart.js Line Chart",
+        display: false,
+        text: "Overview",
       },
     },
   };
 
-  const reverse = structuredClone(logs);
-  reverse.reverse();
 
-  const labels = [];
-  const totals = [];
-  for (const log of reverse) {
-    labels.push(log.date);
-    totals.push(log.total);
-  }
 
-  console.log(labels);
-  console.log(totals);
 
   const data = {
     labels,
     datasets: [
       {
         label: "Total",
-        data: totals,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: values,
+        borderColor: color,
+        backgroundColor: color+"55",
       },
     ],
   };
