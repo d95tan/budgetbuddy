@@ -9,6 +9,7 @@ import EditPage from "../UserPage/EditPage/EditPage";
 import GoalsPage from "../UserPage/GoalsPage/GoalsPage"
 import AuthPage from "../AuthPage/AuthPage";
 import SignupPage from "../SignupPage/SignupPage";
+import NavbarIn from "../../components/Navbar/NavbarIn/NavbarIn";
 
 function App() {
   //*J,21/1,2100: State variable & setter function declaration 
@@ -21,7 +22,7 @@ function App() {
       <>
         <Routes>
         <Route path="/" element={<LandingPage  />} />
-          <Route path="/login" element={<AuthPage />} />
+          <Route path="/login" element={<AuthPage setUser={setUser} />} />
           <Route path="/signup" element={<SignupPage />} />
 
         </Routes>
@@ -31,6 +32,8 @@ function App() {
 
   return (
     <>
+      {/* //? J 24/1 0120: added NavBarIn here. See UserPage.jsx */}
+      <NavbarIn user={user} setUser={setUser}/>
       <Routes>
         {/* <Route path="/" element={<LandingPage  />} /> */}
         <Route path="user" element={<UserPage />}>
