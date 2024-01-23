@@ -24,7 +24,12 @@ const create = async (req, res) => {
 
 const updateMany = async (req, res) => {
   const data = req.body;
-  res.json({msg: "update many"})
+  const response = [];
+  for (const item of data) {
+    const log = await Log.findByIdAndUpdate(item.id, item, {new: true})
+    response.push(log);
+  }
+  res.json(response)
 }
 
 module.exports = {

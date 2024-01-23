@@ -22,7 +22,7 @@ export async function updateLogs(logs) {
     })
   }
   console.log(body)
-  const response = await logsAPI.updateLogs(logs);
+  const response = await logsAPI.updateLogs(body);
   return response;
 }
 
