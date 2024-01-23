@@ -5,6 +5,7 @@ const usersController = require("../controllers/usersController")
 
 router.get("/", usersController.index);
 
-router.post("/", usersController.create);
+//* putting /signup temporarily back. to discuss, if we want it on landing page OR another, or other way out
+router.post("/signup", usersController.create);
 
 module.exports = router;
