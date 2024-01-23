@@ -17,3 +17,16 @@ export async function getLogs() {
 
   return json;
 }
+
+export async function updateLogs(body) {
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body)
+  }
+
+  const response = await fetch(baseURL, options);
+  const json = await response.json();
+
+  return json;
+}

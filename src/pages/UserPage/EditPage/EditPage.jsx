@@ -3,8 +3,6 @@ import EditTable from "../../../components/EditTable/EditTable";
 
 export default function EditPage() {
   const [logs, setLogs] = useOutletContext();
-  console.log(logs)
-  // getColumnHeaders(logs);
   
   return (
     <>

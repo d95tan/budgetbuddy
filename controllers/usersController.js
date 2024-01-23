@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const debug = require("debug")("mern:controllers:usersController");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const index = async (req, res) => {
   const users = await User.find({})
@@ -9,11 +12,32 @@ const index = async (req, res) => {
 } 
 
 const create = async (req, res) => {
-  const user = await User.create(req.body)
-  res.json(user)
+  //? initial code
+  // const user = await User.create(req.body)
+  // res.json(user)
+  //? J: 23/1 0130: create code, + jwt & error handling
+  try {
+    // Add the user to the db
+    const user = await User.create(req.body);
+    const token = createJWT(user);
+    res.json(token);
+  }
+  catch (err) {
+    res.status(400).json(err);
+  }
+
+}
+
+function createJWT(user) {
+  return jwt.sign(
+    // data payload
+    { user },
+    process.env.SECRET,
+    { expiresIn: "24h" }
+  );
 }
 
 module.exports = {
   index,
-  create
+  create,
 }
