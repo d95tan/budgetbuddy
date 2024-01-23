@@ -1,69 +1,98 @@
 import { Button, Form, Input } from "antd";
 import { signUp } from "../../utilities/usersService";
 import { useState } from "react";
-// const onFinish = (values) => {
-//   console.log("Success:", values);
-// };
-// const onFinishFailed = (errorInfo) => {
-//   console.log("Failed:", errorInfo);
-// };
+
 
 export default function SignupForm({ setUser }) {
   
   //* signupform's data is a state 
-  // const [data, setData] = useState( {
-  //   username: "",
-  //   email: "",
-  //   password: "",
-  //   confirm: "",    
-  //   error: "",
-  // } );
-  const [data, setData] = useState( null );
+  const [data, setData] = useState( {
+    username: "",
+    email: "",
+    birthday: "",
+    password: "",
+    confirm: "",    
+    error: "",
+  } );
+  // const [data, setData] = useState(null);
   
+  //* TRY THEIR ANT COMPONENT CODE
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+
+    let dataObject = {
+      username: values.username,
+      email: values.email,
+      birthday: values.birthday,
+      password: values.password,
+    };
+    // console.log(dataObject);          // maybe working...?
+    setData(dataObject);              // maybe working...?
+    // console.log(data);
+  
+    const user = await signUp(dataObject);
+    // console.log(' what is user', user);
+    setUser(user);
+
+  };
+  
+const onFinishFailed = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
+
+  
+  //* METHOD 1: TRADITIONAL WAY OF HANDLES
   //* onChange=handleChange, to update state
 
   //? I THINK ERROR IS COMING FROM HERE
-  const handleChange = (event) => {
+  function handleChange(event) {
 
-    const { name, value } = event.target;
-    
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-      error: '',
-    }));
-
-    console.log(data);
     // const { name, value } = event.target;
-    // setData({
-    //   [event.target.name]: event.target.value,
-    //   error: "",
-    // });
-    // console.log(data);
-  }; 
+    // setData((prevData) => ({
+    //   ...prevData,
+    //   [name]: value,
+    //   error: '',
+    // }));
+    
+    // setData({ ...data, [event.target.name]: event.target.value });
+
+  // function handleChange(evt) {
+  //   setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
+  //   setError("");
+  // }
+    
+
+  // console.log(data);
+  // const { name, value } = event.target;
+  // setData({
+  //   [event.target.name]: event.target.value,
+  //   error: "",
+  // });
+  // console.log(data);
+}
     // this.setState({
     //   [evt.target.name]: evt.target.value,
     //   error: "",
     // });
   
   //* onSubmit-handleSubmit, to pass the data 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
 
-    try { 
-      const { name, email, password } = data;
-      const formData = { name, email, password };
+//     try { 
+//       const { name, email, password } = data;
+//       const formData = { name, email, password };
       
-      const user = await signUp(formData);
-      setUser(user);  
-      console.log(setData);
-      console.log(user);
-    }
-    catch { 
-      console.log("error", typeof error);
-      this.setState({ error: 'Sign up failed. Try again' });      // update the state property 'error', with a string. and using 'this.setState' for class components  
-    }
-}
+//       const user = await signUp(formData);
+//       setUser(user);  
+//       console.log(setData);
+//       console.log(user);
+//     }
+//     catch { 
+//       console.log("error", typeof error);
+//       this.setState({ error: 'Sign up failed. Try again' });      // update the state property 'error', with a string. and using 'this.setState' for class components  
+//     }
+// }
 
   //? updates, to functions we are familiar with
   return (
@@ -83,15 +112,15 @@ export default function SignupForm({ setUser }) {
         initialValues={{
           remember: true,
         }}
-        // onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-        onSubmit={handleSubmit}   
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        // onSubmit={handleSubmit}   
         autoComplete="off" 
       >
         <Form.Item
           label="Username"
           name="username"
-          onChange={handleChange}
+          // onChange={handleChange}
           rules={[
             {
               required: true,
@@ -105,7 +134,7 @@ export default function SignupForm({ setUser }) {
         <Form.Item
           label="Email"
           name="email"
-          onChange={handleChange}
+          // onChange={handleChange}
           rules={[
             {
               required: true,
@@ -117,9 +146,9 @@ export default function SignupForm({ setUser }) {
         </Form.Item>
 
         <Form.Item
-          label="Birthday"
-          name="Birthday"
-          onChange={handleChange}
+          label="birthday"
+          name="birthday"
+          // onChange={handleChange}
           rules={[
             {
               required: true,
@@ -133,7 +162,7 @@ export default function SignupForm({ setUser }) {
         <Form.Item
           label="Password"
           name="password"
-          onChange={handleChange}
+          // onChange={handleChange}
           rules={[
             {
               required: true,
@@ -147,7 +176,7 @@ export default function SignupForm({ setUser }) {
         <Form.Item
           label="Confirm"
           name="passwordconfirm"
-          onChange={handleChange}
+          // onChange={handleChange}
           rules={[
             {
               required: true,
