@@ -6,7 +6,7 @@ export default function LandingPage() {
   return (
     <>
       {/* <NavbarIn /> */}
-      //? J 24/1 0050: comment out in-Navbar, as this is prelogin env
+      {/* //? J 24/1 0050: comment out in-Navbar, as this is prelogin env */}
   
       <NavbarOut />
       <h1>Landing Page</h1>
