@@ -16,7 +16,7 @@ export default function UserPage() {
 
   return (
     <>
-      //? J 24/1 0120: remove NavBarIn here, to follow notes, to have it outside <Routes>. will place it in App.jsx.
+      {/* //? J 24/1 0120: remove NavBarIn here, to follow notes, to have it outside <Routes>. will place it in App.jsx. */}
       {/* <NavbarIn /> */}
       <h1>User Page</h1>
       <Outlet context={[logs, setLogs]} />
