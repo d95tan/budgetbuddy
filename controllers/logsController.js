@@ -24,9 +24,11 @@ const create = async (req, res) => {
 
 const updateMany = async (req, res) => {
   const data = req.body;
+  res.json({msg: "update many"})
 }
 
 module.exports = {
   index,
-  create
+  create,
+  updateMany
 }
