@@ -1,7 +1,12 @@
 import { useContext, createContext, useEffect, useRef, useState } from "react";
 import { Button, Form, Input, Table } from "antd";
 import "./EditTable.css";
-import { flattenLogs, getColumnHeaders, packageLogs, updateLogs } from "../../utilities/logsService";
+import {
+  flattenLogs,
+  getColumnHeaders,
+  packageLogs,
+  updateLogs,
+} from "../../utilities/logsService";
 import { SaveOutlined } from "@ant-design/icons";
 
 const EditableContext = createContext(null);
@@ -84,7 +89,7 @@ const EditableCell = ({
 
 export default function EditTable({ logs, setLogs }) {
   const [data, setData] = useState(flattenLogs(logs));
-  const [updatedIds, setUpdatedIds] = useState([])
+  const [updatedIds, setUpdatedIds] = useState([]);
 
   const columnHeaders = getColumnHeaders(logs);
 
@@ -104,13 +109,45 @@ export default function EditTable({ logs, setLogs }) {
     };
   });
 
-  const handleClick = async (e) => {
-    e.preventDefault();
+  const handleBeforeUnload = (e) => {
+    if (updatedIds.length) {
+      const message =
+        "You have unsaved changes. Are you sure you want to leave?";
+      e.returnValue = message;
+      return message;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [updatedIds]);
+
+  const handleClick = async () => {
     const updatedLogs = packageLogs(logs, data, updatedIds);
-    const response = updateLogs(updatedLogs)
-    // setLogs()
-    // setUpdatedIds([])
-  }
+    const response = await updateLogs(updatedLogs);
+    const responseIds = [];
+    for (const r of response) {
+      responseIds.push(r.id);
+    }
+    const tmp = logs.filter((log) => !responseIds.includes(log.id));
+
+    const newLogs = tmp.concat(response);
+    newLogs.sort((a, b) => {
+      const dateA = a.date;
+      const dateB = b.date;
+      if (dateA < dateB) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    setLogs(newLogs);
+    setUpdatedIds([]);
+  };
 
   const handleSave = (row) => {
     const newData = [...data];
@@ -121,7 +158,7 @@ export default function EditTable({ logs, setLogs }) {
       ...item,
       ...row,
     });
-    setUpdatedIds([...updatedIds, data[index].id])
+    setUpdatedIds([...updatedIds, data[index].id]);
     setData(newData);
   };
 
@@ -134,7 +171,14 @@ export default function EditTable({ logs, setLogs }) {
 
   return (
     <>
-      <Button type="primary" className="save-button" onClick={handleClick} disabled={!updatedIds.length}><SaveOutlined /> Save</Button>
+      <Button
+        type="primary"
+        className="save-button"
+        onClick={handleClick}
+        disabled={!updatedIds.length}
+      >
+        <SaveOutlined /> Save
+      </Button>
       <Table
         components={components}
         rowClassName={() => "editable-row"}
@@ -142,6 +186,16 @@ export default function EditTable({ logs, setLogs }) {
         dataSource={data}
         columns={columns}
       />
+      {/* {blocker.state === "blocked" ? (<div>
+          <p>Are you sure you want to leave?</p>
+          <button onClick={() => blocker.proceed()}>
+            Proceed
+          </button>
+          <button onClick={() => blocker.reset()}>
+            Cancel
+          </button>
+        </div>
+      ) : null} */}
     </>
   );
 }

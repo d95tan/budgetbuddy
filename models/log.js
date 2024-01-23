@@ -49,8 +49,12 @@ const logSchema = new Schema(
 
 logSchema.virtual("totalSavings").get(function () {
   let total = 0;
-  for (let { amount } of this.savings) {
-    total += amount;
+  for (let { amount, isShared } of this.savings) {
+    if (isShared) {
+      total += amount / 2;
+    } else {
+      total += amount;
+    }
   }
   return total;
 });
