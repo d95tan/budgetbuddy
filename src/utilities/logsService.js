@@ -21,8 +21,9 @@ export async function updateLogs(logs) {
       liabilities: [...log.liabilities],
     })
   }
-  console.log(body)
   const response = await logsAPI.updateLogs(body);
+  // console.log(response)
+
   return response;
 }
 
@@ -107,7 +108,7 @@ export function flattenLogs(logs) {
     }
     flattened.push(data);
   });
-  console.log(flattened)
+  // console.log(flattened)
   return flattened;
 }
 
