@@ -34,3 +34,11 @@ export function logOut() {
   localStorage.removeItem('token');
 }
 
+
+export async function logIn(credentials) {
+  // goes to a GET request for 1 ID
+  // so that is in the users-api 
+  const token = await usersAPI.logIn(credentials);
+  localStorage.setItem('token', token);
+  return getUser();
+}

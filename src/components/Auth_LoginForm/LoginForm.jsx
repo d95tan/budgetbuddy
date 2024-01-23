@@ -1,12 +1,59 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-const onFinish = (values) => {
-  console.log('Success:', values);
+import * as usersService from "../../utilities/usersService";
+import { useState } from "react";
+
+// const onFinish = (values) => {
+//   console.log('Success:', values);
+// };
+// const onFinishFailed = (errorInfo) => {
+//   console.log('Failed:', errorInfo);
+// };
+
+export default function LoginForm({ User }) {
+//* so there are 2 states: 'credentials' and 'error'
+const [credentials, setCredentials] = useState({
+  email: "",
+  password: "",
+});
+const [error, setError] = useState("");
+
+  const onFinish = async (values) => {
+    console.log('Success:', values);
+    const storeValues = values; 
+    setCredentials(values);       // maybe working...?
+    console.log(credentials);     // maybe working...?
+
+    setCredentials(storeValues);  // maybe working...?
+    console.log(credentials);     // maybe working...?
+
+    //? from notes
+    const user = await usersService.logIn(credentials);
+    setUser(user);      // become that user
+
 };
 const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
-};
+  setError('The email and password you specified are invalid. Please try again.')
 
-export default function LoginForm() {
+};
+  
+// function handleChange(evt) {
+//   setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
+//   console.log(credentials);     // why cannot?
+//   setError("");
+//   }
+  
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+
+//     try {
+//       const user = await usersService.logIn(credentials);
+//       setUser(user);      // become that user
+//     }
+//     catch {
+//       setError('The email and password you specified are invalid. Please try again.') }
+//   };
+  
   return (
     <>
       <h3> Login </h3>
@@ -26,11 +73,15 @@ export default function LoginForm() {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        // onSubmit={handleSubmit}
         autoComplete="off"
       >
         <Form.Item
           label="Email"
           name="email"
+          // value={credentials.email}
+          // onChange={handleChange}
+
           rules={[
             {
               required: true,
@@ -44,6 +95,9 @@ export default function LoginForm() {
         <Form.Item
           label="Password"
           name="password"
+          // onChange={handleChange}
+          // value= {credentials.password}
+
           rules={[
             {
               required: true,
