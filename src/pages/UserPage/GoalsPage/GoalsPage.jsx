@@ -1,70 +1,128 @@
-import React, { useState } from 'react';
-import './GoalsPage.css';
-
-const Modal = ({ isOpen, onClose, onSave, cardData, setCardData }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
-        <input
-          type="text"
-          value={cardData.title}
-          onChange={(e) => setCardData({ ...cardData, title: e.target.value })}
-        />
-        <textarea
-          value={cardData.description}
-          onChange={(e) => setCardData({ ...cardData, description: e.target.value })}
-        />
-        <button onClick={() => onSave(cardData)}>Save</button>
-        <button onClick={onClose}>Cancel</button>
-      </div>
-    </div>
-  );
-};
+import React, { useState, useEffect } from 'react';
+import { Card, Space, Modal, Input, Button } from 'antd';
 
 export default function GoalsPage() {
-  const [open, setOpen] = useState(false);
-  const [cards, setCards] = useState([
-    { id: 1, title: 'Card 1', description: 'This is card 1' },
-    { id: 2, title: 'Card 2', description: 'This is card 2' },
-    // Add more cards here
-  ]);
-  const [cardData, setCardData] = useState({ id: null, title: '', description: '' });
+  const [visible, setVisible] = useState(false);
+  const [cardData, setCardData] = useState({
+    _id: null,
+    name: '',
+    description: '',
+    endDate: '',
+    targetAmount: 0,
+    currentAmount: 0
+  });
+  const [goals, setGoals] = useState([]);
 
-  const handleClickOpen = (card) => {
-    setCardData(card);
-    setOpen(true);
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        const response = await fetch('/api/goals');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setGoals(data);
+      } catch (error) {
+        console.error('Error fetching goals:', error);
+      }
+    };
+
+    fetchGoals();
+  }, []);
+
+  const handleClickOpen = (goal, event) => {
+    event.preventDefault();
+    setCardData(goal);
+    setVisible(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setVisible(false);
   };
 
-  const handleSave = (updatedCard) => {
-    setCards(cards.map(card => card.id === updatedCard.id ? updatedCard : card));
-    setOpen(false);
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`/api/goals/${cardData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cardData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}or! status: ${response.status}`);
+      }
+
+      const updatedGoal = await response.json();
+      setGoals(goals.map((goal) => goal._id === cardData._id ? updatedGoal : goal));
+      setVisible(false);
+    } catch (error) {
+      console.error('Error updating goal:', error);
+    }
   };
 
   return (
     <>
       <h1>Goals Page</h1>
-      <div className="cards-container">
-        {cards.map((card) => (
-          <div key={card.id} className="card" onClick={() => handleClickOpen(card)}>
-            <h2>{card.title}</h2>
-            <p>{card.description}</p>
-          </div>
+      <Space direction="vertical" size={16}>
+        {goals.map((goal) => (
+          <Card
+            key={goal._id}
+            title={goal.name}
+            extra={<a href="#" onClick={(event) => handleClickOpen(goal, event)}>Edit</a>}
+            style={{ width: 300 }}
+          >
+            <p>Description: {goal.description}</p>
+            <p>End Date: {new Date(goal.endDate).toLocaleDateString()}</p>
+            <p>Target Amount: ${goal.targetAmount.toFixed(2)}</p>
+            <p>Current Amount: ${goal.currentAmount.toFixed(2)}</p>
+          </Card>
         ))}
-      </div>
+      </Space>
       <Modal
-        isOpen={open}
-        onClose={handleClose}
-        onSave={handleSave}
-        cardData={cardData}
-        setCardData={setCardData}
-      />
+        title="Edit Goal"
+        open={visible}
+        onOk={handleSave}
+        onCancel={handleClose}
+        footer={[
+          <Button key="back" onClick={handleClose}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary" onClick={handleSave}>
+            Save
+          </Button>,
+        ]}
+      >
+        <Input
+          placeholder="Name"
+          value={cardData.name}
+          onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
+        />
+        <Input.TextArea
+          placeholder="Description"
+          value={cardData.description}
+          onChange={(e) => setCardData({ ...cardData, description: e.target.value })}
+        />
+        <Input
+          placeholder="End Date"
+          type="date"
+          value={cardData.endDate.slice(0, 10)} 
+          onChange={(e) => setCardData({ ...cardData, endDate: e.target.value })}
+        />
+        <Input
+          placeholder="Target Amount"
+          type="number"
+          value={cardData.targetAmount}
+          onChange={(e) => setCardData({ ...cardData, targetAmount: parseFloat(e.target.value) })}
+        />
+        <Input
+          placeholder="Current Amount"
+          type="number"
+          value={cardData.currentAmount}
+          onChange={(e) => setCardData({ ...cardData, currentAmount: parseFloat(e.target.value) })}
+        />
+      </Modal>
     </>
   );
 }
