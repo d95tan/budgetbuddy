@@ -30,8 +30,8 @@ export default function SignupForm() {
         autoComplete="off"
       >
         <Form.Item
-          label="Name"
-          name="1name"
+          label="Username"
+          name="username"
           rules={[
             {
               required: true,
@@ -62,6 +62,19 @@ export default function SignupForm() {
             {
               required: true,
               message: "Please input your email address",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Birthday"
+          name="Birthday"
+          rules={[
+            {
+              required: true,
+              message: "Please input your birthdate",
             },
           ]}
         >
