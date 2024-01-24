@@ -138,11 +138,12 @@ export default function SignupForm({ setUser }) {
             },
             {
               min: 8, 
-              message: "Password must be at least 8 characters and alphanumeric (include at least a number and an alphabet).",
+              message: "Password must be at least 8 characters.",
             },
             {
-              pattern: /[a-zA-Z0-9~!@#$%^&*()_+-=]/,
-              message: "Password must be at least 8 characters and alphanumeric (include at least a number and an alphabet)."
+              // pattern: /[a-zA-Z0-9~!@#$%^&*()_+-=]/,
+              pattern: /(?=.*[a-zA-Z])(?=.*\d)(?=.*[-!@#$%^&*()_+-=])/,
+              message: "Password must be alphanumeric (include at least a number and an alphabet)."
             }
           ]}
           hasFeedback
