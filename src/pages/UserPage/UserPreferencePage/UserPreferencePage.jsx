@@ -5,7 +5,7 @@ export default function UserPreferencePage() {
 
   return (
     <>
-      <h3> User Preference page </h3>
+      <h2> User Preference page </h2>
       <UserpreferenceForm />
     </>);
 }
