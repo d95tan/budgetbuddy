@@ -18,6 +18,8 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
+//* Middleware to verify token and assign user object of payload to req.user.
+app.use(require('./config/checkToken'));
 app.use("/api/users", usersRouter);
 app.use("/api/goals", goalsRouter);
 app.use("/api/logs", logsRouter);
