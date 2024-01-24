@@ -62,5 +62,7 @@ module.exports = {
   index,
   create,
   login,
+  createJWT, 
   checkToken,
 }
+//? added 'createJWT' here, in order to import to 'userprefersController' to use... 
