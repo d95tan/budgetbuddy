@@ -13,7 +13,7 @@ import NavbarIn from "../../components/Navbar/NavbarIn/NavbarIn";
 
 function App() {
   //*J,21/1,2100: State variable & setter function declaration 
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(null);
   // console.log(user);
 
   //* J,21/1,2100: holding code for Login page
@@ -23,7 +23,7 @@ function App() {
         <Routes>
         <Route path="/" element={<LandingPage  />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup" element={<SignupPage setUser={setUser}/>} />
 
         </Routes>
       </>

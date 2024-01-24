@@ -19,12 +19,13 @@ const [error, setError] = useState("");
 
   const onFinish = async (values) => {
     console.log('Success:', values);
-    const storeValues = values; 
+    
+    // const storeValues = values;
     setCredentials(values);       // maybe working...?
     console.log(credentials);     // maybe working...?
 
-    setCredentials(storeValues);  // maybe working...?
-    console.log(credentials);     // maybe working...?
+    // setCredentials(storeValues);  // maybe working...?
+    // console.log(credentials);     // maybe working...?
 
     //? from notes
     const user = await usersService.logIn(credentials);

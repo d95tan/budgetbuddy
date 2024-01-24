@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { signUp } from "../../utilities/usersService";
 import { useState } from "react";
-
+import OurDatePicker from "./DatePicker";
 
 export default function SignupForm({ setUser }) {
   
@@ -17,7 +17,8 @@ export default function SignupForm({ setUser }) {
   // const [data, setData] = useState(null);
   
   //* TRY THEIR ANT COMPONENT CODE
-  const onFinish = async (values) => {
+  const onFinish = async ( values) => {
+    // event.preventDefault();
     console.log("Success:", values);
 
     let dataObject = {
@@ -158,6 +159,9 @@ const onFinishFailed = (errorInfo) => {
         >
           <Input />
         </Form.Item>
+
+          {/* <OurDatePicker /> */}
+
 
         <Form.Item
           label="Password"
