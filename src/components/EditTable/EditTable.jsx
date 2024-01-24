@@ -5,6 +5,7 @@ import {
   flattenLogs,
   getColumnHeaders,
   packageLogs,
+  sortLogs,
   updateLogs,
 } from "../../utilities/logsService";
 import { SaveOutlined } from "@ant-design/icons";
@@ -88,7 +89,12 @@ const EditableCell = ({
 };
 
 export default function EditTable({ logs, setLogs }) {
-  const [data, setData] = useState(flattenLogs(logs));
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    setData(flattenLogs(logs))
+  }, [logs])
+
   const [updatedIds, setUpdatedIds] = useState([]);
 
   const columnHeaders = getColumnHeaders(logs);
@@ -133,19 +139,10 @@ export default function EditTable({ logs, setLogs }) {
     for (const r of response) {
       responseIds.push(r.id);
     }
-    const tmp = logs.filter((log) => !responseIds.includes(log.id));
+    const newLogs = logs.filter((log) => !responseIds.includes(log.id)).concat(response);
 
-    const newLogs = tmp.concat(response);
-    newLogs.sort((a, b) => {
-      const dateA = a.date;
-      const dateB = b.date;
-      if (dateA < dateB) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-    setLogs(newLogs);
+    const sorted = sortLogs(newLogs)
+    setLogs(sorted);
     setUpdatedIds([]);
   };
 
