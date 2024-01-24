@@ -2,6 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import Graph from "../../../components/Graphs/Graph";
 import "./DashboardPage.css";
 import DashboardNumbers from "../../../components/DashboardNumbers/DashboardNumbers";
+import DashboardTable from "../../../components/DashboardTable/DashboardTable";
 
 export default function DashboardPage() {
   const [logs, setLogs] = useOutletContext();
@@ -22,17 +23,21 @@ export default function DashboardPage() {
 
   return (
     <>
-      <h1>Dashboard Page</h1>
       <div className="dashboard-container">
         <div className="dashboard-left-container">
           <div className="dashboard-top-left-container">
-            <Graph labels={labels} values={totals} color={"#000000"} />
+            <div className="dashboard-graph">
+              <h2>Total Assets</h2>
+              <Graph labels={labels} values={totals} color={"#000000"} />
+            </div>
             <DashboardNumbers logs={logs} />
           </div>
-          <p>TableTableTableTableTable</p>
+          <DashboardTable logs={logs} />
         </div>
         <div className="dashboard-small-graphs">
+          <h3>Total Investments</h3>
           <Graph labels={labels} values={totalInvestments} color={"#39B54A"} />
+          <h3>Total Savings</h3>
           <Graph labels={labels} values={totalSavings} color={"#76b6dd"} />
         </div>
       </div>

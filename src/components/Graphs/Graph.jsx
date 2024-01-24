@@ -24,6 +24,7 @@ export default function Graph({ labels, values, color }) {
     responsive: true,
     plugins: {
       legend: {
+        display: false,
         position: "top",
       },
       title: {
