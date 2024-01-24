@@ -1,7 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { signUp } from "../../utilities/usersService";
 import { useState } from "react";
-import OurDatePicker from "./DatePicker";
 
 export default function SignupForm({ setUser }) {
   
@@ -98,7 +97,7 @@ const onFinishFailed = (errorInfo) => {
   //? updates, to functions we are familiar with
   return (
     <>
-      <h3> Sign Up </h3>
+      <h3> Sign Up - Join GA-SEI48's fastest-growing personal finance app!</h3>
       <Form
         name="basic"
         labelCol={{
@@ -145,23 +144,6 @@ const onFinishFailed = (errorInfo) => {
         >
           <Input />
         </Form.Item>
-
-        <Form.Item
-          label="birthday"
-          name="birthday"
-          // onChange={handleChange}
-          rules={[
-            {
-              required: true,
-              message: "Please input your birthdate",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-          {/* <OurDatePicker /> */}
-
 
         <Form.Item
           label="Password"
