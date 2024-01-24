@@ -1,6 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { signUp } from "../../utilities/usersService";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm({ setUser }) {
   //* signupform's data is a state
@@ -12,6 +13,8 @@ export default function SignupForm({ setUser }) {
     error: "",
   });
   // const [data, setData] = useState(null);
+  const navigate = useNavigate();
+
 
   //* AUI's onSubmit function
   const onFinish = async (values) => {
@@ -30,6 +33,8 @@ export default function SignupForm({ setUser }) {
     const user = await signUp(dataObject);
     // console.log(' what is user', user);
     setUser(user);
+
+    navigate("/");
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -67,6 +72,14 @@ export default function SignupForm({ setUser }) {
             {
               required: true,
               message: "Please create your username",
+            },
+            {
+              min: 4,
+              message: "Username must be at least 4 characters"
+            },
+            {
+              max: 15,
+              message: "Your username exceeds the maximum character limit allowed"
             },
           ]}
         >
@@ -123,6 +136,14 @@ export default function SignupForm({ setUser }) {
               required: true,
               message: "Please input your password!",
             },
+            {
+              min: 8, 
+              message: "Password must be at least 8 characters and alphanumeric (include at least a number and an alphabet).",
+            },
+            {
+              pattern: /[a-zA-Z0-9~!@#$%^&*()_+-=]/,
+              message: "Password must be at least 8 characters and alphanumeric (include at least a number and an alphabet)."
+            }
           ]}
           hasFeedback
         >
