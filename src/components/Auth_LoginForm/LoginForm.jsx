@@ -9,7 +9,7 @@ import { useState } from "react";
 //   console.log('Failed:', errorInfo);
 // };
 
-export default function LoginForm({ User }) {
+export default function LoginForm({ setUser }) {
 //* so there are 2 states: 'credentials' and 'error'
 const [credentials, setCredentials] = useState({
   email: "",
