@@ -13,9 +13,7 @@ import UserPreferencePage from "../UserPage/UserPreferencePage/UserPreferencePag
 import { getUser } from "../../utilities/usersService";
 
 function App() {
-  //*J,21/1,2100: State variable & setter function declaration 
   const [user, setUser] = useState(getUser());
-  // console.log(user);
 
   return (<>
     { user ? (
