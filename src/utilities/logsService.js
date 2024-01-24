@@ -1,16 +1,17 @@
 import { currencyToNum, numToCurrency } from "./helper";
+import { format } from "date-fns";
 import * as logsAPI from "./logsAPI";
 
 export async function getLogs() {
   const data = await logsAPI.getLogs();
   // console.log(data);
-  const logs = [...data];
+  const logs = formatDateFromFetch([...data]);
 
   return logs;
 }
 
 export async function updateLogs(logs) {
-  const body = []
+  const body = [];
   for (const log of logs) {
     body.push({
       id: log.id,
@@ -19,15 +20,14 @@ export async function updateLogs(logs) {
       savings: [...log.savings],
       investments: [...log.investments],
       liabilities: [...log.liabilities],
-    })
+    });
   }
   const response = await logsAPI.updateLogs(body);
   // console.log(response)
-
-  return response;
+  return formatDateFromFetch(response);
 }
 
-export function getColumnHeaders(logs) {
+export function getColumnHeaders(logs, extra = false) {
   const savingsAccNames = [];
   const investmentAccNames = [];
   const liabilityAccNames = [];
@@ -50,62 +50,108 @@ export function getColumnHeaders(logs) {
     }
   }
 
-  const width =
+  let width;
+
+  if (extra) {
+    width =
     90 /
-      (savingsAccNames.length +
+      (4 + savingsAccNames.length +
         investmentAccNames.length +
         liabilityAccNames.length) +
     "%";
+  } else {
+    width =
+      90 /
+        (savingsAccNames.length +
+          investmentAccNames.length +
+          liabilityAccNames.length) +
+      "%";
+  }
 
   const allAccNames = [
-    { Title: "Date", dataIndex: "date", width: "10%" },
+    { Title: "Date", dataIndex: "date", width: "10%", className: "date"},
     ...savingsAccNames.map((name) => {
       return {
         title: name,
-        dataIndex: "s-"+ name,
+        dataIndex: "s-" + name,
         editable: true,
         width,
-        className: "savings"
+        className: "savings",
       };
     }),
     ...investmentAccNames.map((name) => {
       return {
         title: name,
-        dataIndex: "i-"+ name,
+        dataIndex: "i-" + name,
         editable: true,
         width,
-        className: "investments"
+        className: "investments",
       };
     }),
     ...liabilityAccNames.map((name) => {
       return {
         title: name,
-        dataIndex: "l-"+ name,
+        dataIndex: "l-" + name,
         editable: true,
         width,
-        className: "liabilities"
+        className: "liabilities",
       };
     }),
   ];
+
+  if (extra) {
+    const dashBoardColumns = [
+      {
+        title: "Total Assets",
+        dataIndex: "total",
+        width,
+        className: "totals",
+        },{
+          title: "Growth",
+          dataIndex: "growth",
+          width,
+          className: "totals",
+      },
+      {
+        title: "Savings",
+        dataIndex: "totalSavings",
+        width,
+        className: "totals",
+      },
+      {
+        title: "Investments",
+        dataIndex: "totalInvestments",
+        width,
+        className: "totals",
+      },
+    ];
+
+    return allAccNames.concat(dashBoardColumns);
+  }
+  // console.log(allAccNames);
   return allAccNames;
 }
 
 export function flattenLogs(logs) {
   const flattened = [];
-  logs.forEach((log) => {
+  logs.forEach((log,i) => {
     const data = {};
     data.key = log.date;
     data.date = log.date;
-    data.id = log.id
+    data.id = log.id;
     for (let account of log.savings) {
-      data["s-"+account.name] = numToCurrency(account.amount);
+      data["s-" + account.name] = numToCurrency(account.amount);
     }
     for (let account of log.investments) {
-      data["i-"+account.name] = numToCurrency(account.amount);
+      data["i-" + account.name] = numToCurrency(account.amount);
     }
     for (let account of log.liabilities) {
-      data["l-"+account.name] = numToCurrency(account.amount);
+      data["l-" + account.name] = numToCurrency(account.amount);
     }
+    data.total = numToCurrency(log.total)
+    data.totalInvestments = numToCurrency(log.totalInvestments)
+    data.totalSavings = numToCurrency(log.totalSavings)
+    data.growth = i === logs.length-1 ? "na" : numToCurrency(log.total - logs[i+1].total)
     flattened.push(data);
   });
   // console.log(flattened)
@@ -116,36 +162,56 @@ export function packageLogs(logs, data, ids) {
   const packaged = [];
   for (const row of data) {
     if (ids.includes(row.id)) {
-      const [log] = structuredClone(logs.filter(i => i.id === row.id))
+      const [log] = structuredClone(logs.filter((i) => i.id === row.id));
       log.totalSavings = 0;
       log.totalInvestments = 0;
       log.totalLiabilities = 0;
       for (let acc of log.savings) {
-        acc.amount = currencyToNum(row["s-" + acc.name])
+        acc.amount = currencyToNum(row["s-" + acc.name]);
         log.totalSavings += acc.amount;
       }
       for (let acc of log.investments) {
-        acc.amount = currencyToNum(row["i-" + acc.name])
+        acc.amount = currencyToNum(row["i-" + acc.name]);
         log.totalInvestments += acc.amount;
       }
       for (let acc of log.liabilities) {
-        acc.amount = currencyToNum(row["l-" + acc.name])
+        acc.amount = currencyToNum(row["l-" + acc.name]);
         log.totalLiabilities += acc.amount;
       }
-      log.total = log.totalSavings + log.totalInvestments - log.totalLiabilities;
-      packaged.push(log)
+      log.total =
+        log.totalSavings + log.totalInvestments - log.totalLiabilities;
+      packaged.push(log);
     }
   }
   // console.log(packaged)
-  return packaged
+  return packaged;
+}
+
+export function formatDateFromFetch(logs) {
+  for (const log of logs) {
+    log.date = format(log.date, "d MMM yyyy");
+  }
+  return logs;
+}
+
+export function sortLogs(logs) {
+  logs.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    if (dateA < dateB) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+  return logs;
 }
 
 export function logArrToObj(logs) {
   const copy = structuredClone(logs);
-  
-  copy.forEach((log, i) => {
 
-    copy[i].key = log.date
+  copy.forEach((log, i) => {
+    copy[i].key = log.date;
 
     const savingAccountsArr = [...log.savings];
     const savingAccountsObj = {};
@@ -167,7 +233,7 @@ export function logArrToObj(logs) {
       liabilitiesAccountsObj[account.name] = account;
     }
     copy[i].liabilities = liabilitiesAccountsObj;
-  })
+  });
   // console.log(copy)
   return copy;
 }
