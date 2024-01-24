@@ -9,10 +9,12 @@ import EditPage from "../UserPage/EditPage/EditPage";
 import GoalsPage from "../UserPage/GoalsPage/GoalsPage"
 import AuthPage from "../AuthPage/AuthPage";
 import SignupPage from "../SignupPage/SignupPage";
+import UserPreferencePage from "../UserPage/UserPreferencePage/UserPreferencePage";
+import { getUser } from "../../utilities/usersService";
 
 function App() {
   //*J,21/1,2100: State variable & setter function declaration 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getUser());
   // console.log(user);
 
   return (<>
@@ -25,7 +27,7 @@ function App() {
               <Route path="tracking" element={<TrackingPage />} />
               <Route path="edit" element={<EditPage />} />
               <Route path="goals" element={<GoalsPage />} />
-              {/* <Route path="preferences" element={<PreferencesPage />} /> */}
+              <Route path="preferences" element={<UserPreferencePage />} />
             </Route>
           </Routes>
         </>
