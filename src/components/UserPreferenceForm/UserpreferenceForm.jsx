@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, List, Modal } from 'antd';
 import { HistoryOutlined , StockOutlined , CalendarOutlined , LockOutlined } from "@ant-design/icons";
 import OurDatePicker from './DatePicker';
+import DropdownUpdateFreq from './dropdownUpdateFreq';
+
   
 export default function UserPreferenceForm() {   //? originally from AntD
 
@@ -61,8 +63,9 @@ export default function UserPreferenceForm() {   //? originally from AntD
         <div>
           <h2>Update frequency</h2>
           <p>Custom content for Update frequency</p>
-          <label>freq</label>
-          <input />
+          <DropdownUpdateFreq />
+          {/* <label>freq</label>
+          <input /> */}
           {/* lets do an AJAX GET in here first */}
         </div>
       ),
