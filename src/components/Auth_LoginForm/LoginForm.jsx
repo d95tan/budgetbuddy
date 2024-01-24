@@ -1,6 +1,7 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import * as usersService from "../../utilities/usersService";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 // const onFinish = (values) => {
 //   console.log('Success:', values);
@@ -16,7 +17,9 @@ const [credentials, setCredentials] = useState({
   password: "",
 });
 const [error, setError] = useState("");
-
+  const navigate = useNavigate();
+  
+  
   const onFinish = async (values) => {
     console.log('Success:', values);
     
@@ -30,6 +33,7 @@ const [error, setError] = useState("");
     //? from notes
     const user = await usersService.logIn(credentials);
     setUser(user);      // become that user
+    navigate('/');
 
 };
 const onFinishFailed = (errorInfo) => {
@@ -37,6 +41,8 @@ const onFinishFailed = (errorInfo) => {
   setError('The email and password you specified are invalid. Please try again.')
 
 };
+  
+  
   
 // function handleChange(evt) {
 //   setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
