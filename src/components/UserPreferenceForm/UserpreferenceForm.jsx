@@ -1,8 +1,9 @@
+import './UserpreferenceForm.css';
 import React, { useEffect, useState } from 'react';
 import { Avatar, List, Modal } from 'antd';
-import { HistoryOutlined , StockOutlined , CalendarOutlined} from "@ant-design/icons";
+import { HistoryOutlined , StockOutlined , CalendarOutlined , LockOutlined } from "@ant-design/icons";
 import OurDatePicker from './DatePicker';
-
+  
 export default function UserPreferenceForm() {   //? originally from AntD
 
   //? improved for our use
@@ -14,10 +15,12 @@ export default function UserPreferenceForm() {   //? originally from AntD
     setCurrentModalContent(modalContent);
   };
   const handleOk = () => {
+    //? probably need to handle submit code from forms here
     setIsModalOpen(false);
     setCurrentModalContent(false);
   };
   const handleCancel = () => {
+    // do not need to handle anything
     setIsModalOpen(false);
     setCurrentModalContent(false);
   };
@@ -42,6 +45,12 @@ export default function UserPreferenceForm() {   //? originally from AntD
   //       <p>Some contents...</p>     </Modal>
   //   </>   );
 
+  //* ok lets start working on the backend for User preferences
+  // const [ birthdate, setBirthdate ] = useState( getUserPreference() );
+  // const [ income, setIncome ] = useState(10);
+  // const [income, setIncome] = useState( getUserPreference() );
+  // const [ updatefreq, setUpdatefreq ] = useState(getUserPreference());
+
 
   const preferlist = [
     {
@@ -54,8 +63,10 @@ export default function UserPreferenceForm() {   //? originally from AntD
           <p>Custom content for Update frequency</p>
           <label>freq</label>
           <input />
+          {/* lets do an AJAX GET in here first */}
         </div>
       ),
+      content: 'Contant', //to do AJAX GET from a db
     },
     {
       title: "Current income",
@@ -67,10 +78,11 @@ export default function UserPreferenceForm() {   //? originally from AntD
           <h2>Current income</h2>
           <p>Custom content for Current income</p>
           <label>income</label>
-          <input />
-
+          <input  />
+          {/* lets do an AJAX GET in here first */}
         </div>
       ),
+      content: 'Content', //to do AJAX GET from a db
     },
     {
       title: "Birthday",
@@ -79,12 +91,39 @@ export default function UserPreferenceForm() {   //? originally from AntD
       icon: <CalendarOutlined style={{ fontSize: "200%" }} />,
       modalContent: (
         <div>
-          <h2>Update frequency</h2>
-          <p>Custom content for Update frequency</p>
+          <h2>Birthdate</h2>
+          <p>Custom content for updating your birthdate</p>
+          {/* lets do an AJAX GET in here first */}
           <OurDatePicker />
         </div>
       ),
+      content: 'Contint', //to do AJAX GET from a db
     },
+    {
+      title: "Password",
+      description:
+        "Change your password",
+      icon: <LockOutlined style={{ fontSize: "200%" }} />,
+      modalContent: (
+        <div>
+          <h2>Change password</h2>
+          <p>Custom content for password change</p>
+          {/* lets do an AJAX GET in here first */}
+          <label>Your current password</label>
+          <input />
+          <br />
+          <label>Your new password</label>
+          <input />
+        </div>
+      ),
+      content: 'Contont', //to do AJAX GET from a db
+    },
+    // {
+    //   title: '',
+    //   description: '',
+    //   modalContent: null,
+    //   content: '',
+    // },
   ];
 
   // i want to render it upon coming in
@@ -93,12 +132,12 @@ export default function UserPreferenceForm() {   //? originally from AntD
 
   return (
     <>
-      <List
+      <List 
         itemLayout="horizontal"
         dataSource={preferlist}
         renderItem={(item, index) => (
           // <List.Item onClick={showModal(item.modalContent)}>
-          <List.Item onClick={() => showModal(item.modalContent)}>
+          <List.Item className='preferlistitem' onClick={() => showModal(item.modalContent)}>
 
             <List.Item.Meta
               avatar={item.icon}
@@ -107,12 +146,15 @@ export default function UserPreferenceForm() {   //? originally from AntD
             />
 
             {/* // this part to render value */}
-            <div>Content</div>        
+            <div>{item.content}</div>        
           </List.Item>
         )}
+        
       />
+      <br />
 
-        <Modal
+
+      <Modal
         // title="Basic Modal"
         open={isModalOpen}
         onOk={handleOk}

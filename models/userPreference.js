@@ -27,7 +27,7 @@ const userPreferenceSchema = new Schema(
       type: [incomeSchema],
     },
     birthday: {
-      type: Date,
+      type: String,
     },
   }, {
     timestamps: true,

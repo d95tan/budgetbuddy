@@ -10,6 +10,7 @@ const logger = require("morgan");
 const usersRouter = require("./routes/usersRouter")
 const logsRouter = require("./routes/logsRouter")
 const goalsRouter = require("./routes/goalsRouter")
+const userpreferencesRouter = require("./routes/userpreferencesRouter")
 
 const app = express();
 
@@ -23,6 +24,9 @@ app.use(require('./config/checkToken'));
 app.use("/api/users", usersRouter);
 app.use("/api/goals", goalsRouter);
 app.use("/api/logs", logsRouter);
+//? J 25/1 0245: trying this path
+app.use("/api/userpreferences", userpreferencesRouter);
+
 
 //* routes block
 app.get("/api/", (req, res) => {

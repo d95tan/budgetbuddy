@@ -1,0 +1,17 @@
+meta {
+  name: Post birthday
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5173/api/userpreferences/birthday
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "birthday": "123"
+  }
+}
