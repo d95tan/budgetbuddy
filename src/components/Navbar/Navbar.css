@@ -40,6 +40,14 @@
   font-weight: bold;
 }
 
+.logout-button {
+  /* J: can't seem to edit margin, did it in React
+  margin-left: auto;
+  display: flex;
+  align-items: center; */
+}
+
+
 .auth-buttons {
   margin-left: auto;
   display: flex;

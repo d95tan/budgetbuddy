@@ -7,10 +7,14 @@ const { Header } = Layout;
 export default function NavbarOut() {
   return (
     <Header className="navbar">
-      <div className="brand">
-        <img src="/Logo.svg" alt="Logo" style={{ width: 40, height: 40 }} />
-        <span className="app-name">BudgetBuddy</span>
-      </div>
+      
+      <Link to="/">
+        <div className="brand">
+          <img src="/Logo.svg" alt="Logo" style={{ width: 40, height: 40 }} />
+          <span className="app-name">BudgetBuddy</span>
+        </div>
+      </Link>
+
       <div className="auth-buttons">
         <Link to="/login">
           <Button type="primary">Log In</Button>
