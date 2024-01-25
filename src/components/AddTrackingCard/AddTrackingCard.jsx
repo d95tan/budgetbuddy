@@ -85,6 +85,7 @@ export default function AddTrackingCard({ type, addAccount }) {
             placeholder={
               "New " + type.charAt(0).toUpperCase() + type.slice(1) + " Account"
             }
+            style={{ width: "90%"}}
             onChange={handleNameChange}
           />
         }
