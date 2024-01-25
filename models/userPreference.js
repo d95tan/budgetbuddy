@@ -23,12 +23,14 @@ const userPreferenceSchema = new Schema(
     },
     updateFrequency: {
       type: Number,
+      unique: true,
     },
     incomeHistory: {
       type: [incomeSchema],
     },
     birthday: {
-      type: Date,     //updated. what will happen?
+      type: String,     //reversed
+      unique: true,
     }
   }, {
     timestamps: true,
