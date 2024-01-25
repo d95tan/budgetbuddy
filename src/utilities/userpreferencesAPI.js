@@ -2,14 +2,15 @@ const BASE_URL = '/api/userpreferences';
 import { getToken } from "./usersService";
 import debug from "debug";
 
+
 //* create birthday function
 export async function createBirthday(inputData) {
   return sendRequest(BASE_URL + '/birthday', 'POST', inputData);
 }
 
 //* getOne birthday function
-export async function getOneBirthday() {
-  return sendRequest(BASE_URL + '/birthday/:id', 'GET', );
+export async function getOneBirthday(userId) {
+  return sendRequest(`${BASE_URL}/birthday/${userId}`, 'GET', );
 }
 
 //* update birthday function

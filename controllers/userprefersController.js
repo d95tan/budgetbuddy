@@ -46,17 +46,28 @@ const indexBirthday = async (req, res) => {
 
 } 
 
+//* working code
 const getOneBirthday = async (req, res) => {
   const { userId } = req.params;
 
   const userBirthday = await UserPreference.findOne(userId);
-  // let showBirthday = userBirthday.birthday;
-  // console.log(userBirthday);
-  // console.log(showBirthday);
 
   res.json( userBirthday );
 
 }
+
+//* testing 
+// const getOneBirthday = async (req, res) => {
+//   const userId = req.user._id;
+
+//   const userBirthday = await UserPreference.findOne(userId);
+//   // let showBirthday = userBirthday.birthday;
+//   // console.log(userBirthday);
+//   // console.log(showBirthday);
+
+//   res.json( userBirthday );
+// }
+
 
 const updateBirthday = async (req, res) => {
   try {

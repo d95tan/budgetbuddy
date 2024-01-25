@@ -29,23 +29,27 @@ const items = [
 ];
 
 
-export default function DropdownUpdateFreq() {
+export default function DropdownUpdateFreq( { updatefreq , setUpdatefreq }) {
 
- const [frequency, setFrequency] = useState('Frequency');
+  const [frequency, setFrequency] = useState(updatefreq);
 
   
- const handleButtonClick = (e) => {
-  // message.info('Click on left button.');
-  // console.log('click left button', e);
+  const handleButtonClick = () => {
+    //? push data to db 
+    //? for now just change state
+    setUpdatefreq(frequency);
+    console.log(updatefreq);
   };
   
-const handleMenuClick = (event) => {
-  // message.info('Click on menu item.');
-  // console.log('click', e);
-  
-  setFrequency(event.target.value);
+  const handleMenuClick = (item) => {
+    // setFrequency(item.label);
+    // console.log(item);
 
+    setFrequency(item.label);
+    // console.log(item.label);
+    // console.log(frequency);
   };
+
   
   const menuProps = {
     items,
@@ -61,7 +65,11 @@ const handleMenuClick = (event) => {
           icon={<CalendarOutlined />}
           onClick={handleButtonClick}
         >
-          {frequency}
+          { frequency }
+          {/* {updatefreq}
+           */}
+          
+          
         </Dropdown.Button>
       </Space>
     </>

@@ -10,6 +10,7 @@ router.get("/birthday/all", userprefersController.indexBirthday);
 router.post("/birthday", userprefersController.createBirthday);
 //? edit Ctrl, then come back here to remove :id
 router.get("/birthday/:id", userprefersController.getOneBirthday);    
+// router.get("/birthday/", userprefersController.getOneBirthday);    
 router.put("/birthday/", userprefersController.updateBirthday);
 
 // router.put("/birthday/:id", userprefersController.updateBirthday);
