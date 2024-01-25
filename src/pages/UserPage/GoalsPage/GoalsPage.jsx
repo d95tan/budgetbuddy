@@ -11,24 +11,44 @@ export default function GoalsPage() {
     targetAmount: 0,
     currentAmount: 0
   });
-  const [goals, setGoals] = useState([]);
 
-  useEffect(() => {
-    const fetchGoals = async () => {
-      try {
-        const response = await fetch('/api/goals');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setGoals(data);
-      } catch (error) {
-        console.error('Error fetching goals:', error);
-      }
-    };
+// Placeholder data for goals
+const placeholderGoals = [
+  {
+    _id: '1',
+    name: 'Emergency Fund',
+    description: 'Save up for unexpected expenses',
+    endDate: '2023-12-31',
+    targetAmount: 1000,
+    currentAmount: 200
+  },
+  {
+    _id: '2',
+    name: 'Vacation',
+    description: 'Trip to Hawaii',
+    endDate: '2024-06-30',
+    targetAmount: 5000,
+    currentAmount: 1000
+  },
+];
+const [goals, setGoals] = useState(placeholderGoals);
 
-    fetchGoals();
-  }, []);
+  // useEffect(() => {
+  //   const fetchGoals = async () => {
+  //     try {
+  //       const response = await fetch('/api/goals');
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
+  //       setGoals(data);
+  //     } catch (error) {
+  //       console.error('Error fetching goals:', error);
+  //     }
+  //   };
+
+  //   fetchGoals();
+  // }, []);
 
   const handleClickOpen = (goal, event) => {
     event.preventDefault();
