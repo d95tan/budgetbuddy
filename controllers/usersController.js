@@ -4,12 +4,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const index = async (req, res) => {
-  const users = await User.find({})
-  res.json(users)
+  const users = await User.find({});
+  res.json(users);
   // const data = req.body;
   // const user = await User.create(data);
   // res.json(user)
-} 
+};
 
 const create = async (req, res) => {
   //? initial code
@@ -21,12 +21,10 @@ const create = async (req, res) => {
     const user = await User.create(req.body);
     const token = createJWT(user);
     res.json(token);
-  }
-  catch (err) {
+  } catch (err) {
     res.status(400).json(err);
   }
-
-}
+};
 
 function createJWT(user) {
   return jwt.sign(
@@ -50,19 +48,18 @@ async function login(req, res) {
   }
 }
 
-
 //* Checktoken
 function checkToken(req, res) {
-  console.log('req.user', req.user);
+  console.log("req.user", req.user);
   // that Date object we created for fun
-  res.json(req.exp); 
+  res.json(req.exp);
 }
 
 module.exports = {
   index,
   create,
   login,
-  createJWT, 
+  createJWT,
   checkToken,
-}
-//? added 'createJWT' here, in order to import to 'userprefersController' to use... 
+};
+//? added 'createJWT' here, in order to import to 'userprefersController' to use...

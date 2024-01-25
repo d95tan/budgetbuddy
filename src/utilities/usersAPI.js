@@ -11,7 +11,7 @@ export async function signUp(userData) {
 
 
 //* login function
-export async function logIn({ credentials }) {
+export async function logIn(credentials) {
   return sendRequest(BASE_URL + '/login', 'POST', credentials);
 }
 
