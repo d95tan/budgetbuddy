@@ -138,8 +138,7 @@ export default function UserPreferenceForm() {   //? originally from AntD
       <List 
         itemLayout="horizontal"
         dataSource={preferlist}
-        renderItem={(item, index) => (
-          // <List.Item onClick={showModal(item.modalContent)}>
+        renderItem={(item) => (
           <List.Item className='preferlistitem' onClick={() => showModal(item.modalContent)}>
 
             <List.Item.Meta

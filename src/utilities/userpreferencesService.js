@@ -9,3 +9,11 @@ export async function createBirthday(inputData) {
 
   return getUser();
 }
+
+export async function indexBirthday() {
+  const token = await userpreferencesAPI.indexBirthday();
+
+  localStorage.setItem('token', token);
+
+  return getUser();
+}
