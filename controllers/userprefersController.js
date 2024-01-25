@@ -60,7 +60,7 @@ const updateBirthday = async (req, res) => {
     console.log(req.user._id);
 
     const data = req.body;
-    const userBirthday = await UserPreference.findOneAndUpdate({userId: '65b1e39b32b62bbbf45ec035'}, data, { new: true });
+    const userBirthday = await UserPreference.findOneAndUpdate( {userId}, data, { new: true });
     res.json(userBirthday);
     // res.json({msg: 'testing' });
     // const token = usersController.createJWT(userbirthday);

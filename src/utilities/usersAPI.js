@@ -1,6 +1,7 @@
 const BASE_URL = '/api/users';
 import { getToken } from "./usersService";
 
+
 //* signup function
 export async function signUp(userData) {
   // console.log('usersAPI: does it sound here');
@@ -10,7 +11,7 @@ export async function signUp(userData) {
 
 
 //* login function
-export async function logIn(credentials) {
+export async function logIn({ credentials }) {
   return sendRequest(BASE_URL + '/login', 'POST', credentials);
 }
 
