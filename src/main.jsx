@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           textAlign: "center",
         }}
       >
-        © {new Date().getFullYear()} By Dan Tan, Justin Teh, Raphael Lim 
+        © {new Date().getFullYear()} By <a href="https://github.com/d95tan/budgetbuddy" target="_blank" rel="noopener noreferrer">Dan Tan</a>, <a href="https://github.com/justintea" target="_blank" rel="noopener noreferrer">Justin Teh</a>, <a href="https://github.com/kilroyr" target="_blank" rel="noopener noreferrer">Raphael Lim</a> 
       </Footer>
   </React.StrictMode>
 );
