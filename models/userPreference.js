@@ -19,7 +19,7 @@ const userPreferenceSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      //todo: unique 
+      unique: true,
     },
     updateFrequency: {
       type: Number,
@@ -28,7 +28,7 @@ const userPreferenceSchema = new Schema(
       type: [incomeSchema],
     },
     birthday: {
-      type: String,
+      type: Date,     //updated. what will happen?
     }
   }, {
     timestamps: true,
