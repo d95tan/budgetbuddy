@@ -1,6 +1,7 @@
 import { currencyToNum, numToCurrency } from "./helper";
 import { format } from "date-fns";
 import * as logsAPI from "./logsAPI";
+import { getUser } from "./usersService";
 
 export async function getLogs() {
   const data = await logsAPI.getLogs();
@@ -66,15 +67,18 @@ export function getAccountNames(logs) {
 }
 
 export function createNewLogState(logs) {
+  const userId = getUser()._id
+
   if (!logs || typeof logs[0] === "undefined") {
-    return { savings: [], investments: [], liabilities: [] };
+    console.log("no logs")
+    return { userId, date: new Date(), savings: [], investments: [], liabilities: [] };
   }
 
   const newLog = structuredClone({
     savings: logs[0]?.savings,
     investments: logs[0]?.investments,
     liabilities: logs[0]?.liabilities,
-    userId: logs[0]?.userId,
+    userId,
   });
 
   newLog.date = new Date(Date.now());
