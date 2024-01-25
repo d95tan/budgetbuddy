@@ -1,12 +1,14 @@
 const BASE_URL = '/api/users';
 import { getToken } from "./usersService";
 
+
 //* signup function
 export async function signUp(userData) {
   // console.log('usersAPI: does it sound here');
 
   return sendRequest(BASE_URL + '/', 'POST', userData);
 }
+
 
 //* login function
 export async function logIn(credentials) {
@@ -17,8 +19,6 @@ export async function logIn(credentials) {
 export async function checkToken() {
   return sendRequest(`${BASE_URL}/check-token`);
 }
-
-
 
 
 //* template function 

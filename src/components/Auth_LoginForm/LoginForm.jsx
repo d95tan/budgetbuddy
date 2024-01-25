@@ -3,36 +3,23 @@ import * as usersService from "../../utilities/usersService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function LoginForm({ setUser }) {
-  //* so there are 2 states: 'credentials' and 'error'
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     try {
-      console.log("Success:", values);
-
-      setCredentials(values); // maybe working...?
-      console.log(credentials); // maybe working...?
-
-      //? from notes
-      const user = await usersService.logIn(credentials);
-      setUser(user); // become that user
+      const user = await usersService.logIn(values);
+      setUser(user);
       navigate("/");
-    }
-
-    //? User-error validation #1
-    catch {
-      setError("The email and password you specified are invalid. Please try again.");
-
+    } catch {
+      //? User-error validation #1
+      setError(
+        "The email and password you specified are invalid. Please try again."
+      );
     }
   };
-  
+
   // const onFinishFailed = (errorInfo) => {
   //   console.log("Failed:", errorInfo);
   //   setError("The email and password you specified are invalid. Please try again.");
@@ -107,15 +94,16 @@ export default function LoginForm({ setUser }) {
           </Button>
 
           {/* //? User-error validation #2 */}
-          <p className="error-message" style={{ color: 'red'}} >&nbsp;{error}</p>
-
+          <p className="error-message" style={{ color: "red" }}>
+            &nbsp;{error}
+          </p>
         </Form.Item>
       </Form>
     </>
   );
 }
 
-//* old code 
+//* old code
 /* <div className="form-container">
          J: i want to import styles, ask tomorrow 
         <form>

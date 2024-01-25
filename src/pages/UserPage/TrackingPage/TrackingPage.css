@@ -1,3 +1,7 @@
+.tracking-page-header {
+  padding-left: 1rem;
+}
+
 .tracking-page-div {
   /* border: 1px solid red; */
   display: flex;
@@ -17,4 +21,11 @@
 
 .account-type {
   padding-left: 1rem;
+}
+
+.label-input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem
 }

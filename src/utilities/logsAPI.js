@@ -57,3 +57,15 @@ export async function createLog(body) {
 
   return json;
 }
+
+export async function deleteLog(id) {
+  const options = {
+    method: "DELETE",
+    headers,
+  }
+
+  const response = await fetch(`${baseURL}/${id}`, options)
+  const json = response.json();
+
+  return json;
+}
