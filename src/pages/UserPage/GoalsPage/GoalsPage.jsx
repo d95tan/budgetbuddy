@@ -1,20 +1,20 @@
 import "./GoalsPage.css";
-import { useState, useEffect } from "react";
-import { Card, Space, Modal, Input, Button } from "antd";
+import { useState } from "react";
+import { Card,  Modal, Input, Button } from "antd";
 import {
   createGoal,
   deleteGoal,
-  getGoals,
   updateGoal,
 } from "../../../utilities/goalsService";
 import { DatePicker, Progress } from "antd";
 import dayjs from "dayjs";
 import { getUser } from "../../../utilities/usersService";
+import { useOutletContext } from "react-router-dom";
 
 export default function GoalsPage() {
   const [visible, setVisible] = useState(false);
   const [newCardVisible, setNewCardVisible] = useState(false);
-  const [goals, setGoals] = useState([]);
+  const { goals, setGoals } = useOutletContext();
   const [cardData, setCardData] = useState({
     _id: null,
     userId: getUser()._id,
@@ -24,57 +24,6 @@ export default function GoalsPage() {
     targetAmount: 0,
     currentAmount: 0,
   });
-
-  // useEffect(() => {
-  //   const fetchGoals = async () => {
-  //     try {
-  //       const data = await getGoals();
-  //       setGoals(data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch goals:', error);
-  //     }
-  //   };
-
-  //   fetchGoals();
-  // }, []);
-
-  useEffect(() => {
-    (async function () {
-      const response = await getGoals();
-      setGoals(response);
-      console.log(goals);
-    })();
-  }, []);
-
-  const populateSampleData = () => {
-    const sampleGoals = [
-      {
-        _id: "1",
-        name: "Emergency Fund",
-        description: "Save for unexpected expenses",
-        endDate: new Date(2023, 11, 31).toISOString(),
-        targetAmount: 1000,
-        currentAmount: 200,
-      },
-      {
-        _id: "2",
-        name: "Vacation",
-        description: "Trip to Hawaii",
-        endDate: new Date(2024, 5, 15).toISOString(),
-        targetAmount: 5000,
-        currentAmount: 1000,
-      },
-      {
-        _id: "3",
-        name: "Retirement",
-        description: "Retirement savings account",
-        endDate: new Date(2040, 0, 1).toISOString(),
-        targetAmount: 500000,
-        currentAmount: 75000,
-      },
-    ];
-    setGoals(sampleGoals);
-  };
 
   const handleClickOpen = (goal, event) => {
     event.preventDefault();

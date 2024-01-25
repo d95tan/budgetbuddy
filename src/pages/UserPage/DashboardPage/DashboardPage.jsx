@@ -5,8 +5,9 @@ import DashboardNumbers from "../../../components/DashboardNumbers/DashboardNumb
 import DashboardTable from "../../../components/DashboardTable/DashboardTable";
 
 export default function DashboardPage() {
-  const [logs, setLogs] = useOutletContext();
+  const { logs, goals } = useOutletContext();
 
+  console.log(goals)
   const reversedLogs = structuredClone(logs);
   reversedLogs.reverse();
 

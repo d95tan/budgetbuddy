@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import AddTrackingCard from "../../../components/AddTrackingCard/AddTrackingCard";
 
 export default function TrackingPage() {
-  const [logs, setLogs] = useOutletContext();
+  const {logs, setLogs} = useOutletContext();
   const [newLog, setNewLog] = useState({savings: [], investments: [], liabilities: [], userId: "", date: new Date()});
   const navigate = useNavigate();
 
