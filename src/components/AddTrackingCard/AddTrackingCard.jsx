@@ -9,7 +9,7 @@ export default function AddTrackingCard({ type, addAccount }) {
     liabilities: { name: null, amount: 0 },
   };
 
-  const [account, setAccount] = useState({...newAccount[type]});
+  const [account, setAccount] = useState({ ...newAccount[type] });
 
   const [checked, setChecked] = useState(false);
 
@@ -17,7 +17,7 @@ export default function AddTrackingCard({ type, addAccount }) {
     e.preventDefault();
 
     if (!account.name) {
-      window.alert("Name required")
+      window.alert("Name required");
       return;
     }
 
@@ -39,7 +39,7 @@ export default function AddTrackingCard({ type, addAccount }) {
     } else {
       addAccount(account, type);
     }
-    setAccount(newAccount[type])
+    setAccount(newAccount[type]);
   };
 
   const handleNameChange = (e) => {
@@ -71,9 +71,9 @@ export default function AddTrackingCard({ type, addAccount }) {
   };
 
   const selectBefore = (
-    <Select defaultValue="add" style={{ width: 60 }} onChange={handleDWChange}>
-      <Option value="add">D</Option>
-      <Option value="minus">W</Option>
+    <Select defaultValue="add" style={{ width: "7rem" }} onChange={handleDWChange}>
+      <Option value="add">Deposit</Option>
+      <Option value="minus">Withdrawal</Option>
     </Select>
   );
 
@@ -96,39 +96,44 @@ export default function AddTrackingCard({ type, addAccount }) {
         }
         bodyStyle={{ display: "inline-block" }}
       >
-        Amount:{" "}
-        <InputNumber
-          formatter={(value) =>
-            `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          }
-          parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-          onChange={handleAmountChange}
-          min={0}
-        />
-        <br />
+        <div className="label-input-container">
+          Amount:{" "}
+          <InputNumber
+            formatter={(value) =>
+              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+            onChange={handleAmountChange}
+            min={0}
+          />
+        </div>
+
         {type === "savings" ? (
           <>
             <br />
-            Shared Account:{" "}
-            <Checkbox checked={checked} onChange={handleIsSharedChange} />{" "}
+            <div className="label-input-container">
+              Shared Account:{" "}
+              <Checkbox checked={checked} onChange={handleIsSharedChange} />{" "}
+            </div>
           </>
         ) : type === "investments" ? (
           <>
             <br />
-            Deposit/Withdrawal:{" "}
-            <InputNumber
-              addonBefore={type === "investments" ? selectBefore : null}
-              defaultValue={0}
-              formatter={(value) =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-              onChange={handleDepositAmountChange}
-              min={0}
-              style={{
-                width: "8rem",
-              }}
-            />
+            <div className="label-input-container">
+              <InputNumber
+                addonBefore={type === "investments" ? selectBefore : null}
+                defaultValue={0}
+                formatter={(value) =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                onChange={handleDepositAmountChange}
+                min={0}
+                style={{
+                  width: "14rem",
+                }}
+              />
+            </div>
           </>
         ) : null}
       </Card>

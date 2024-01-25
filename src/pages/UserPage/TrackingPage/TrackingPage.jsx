@@ -102,9 +102,8 @@ export default function TrackingPage() {
 
   return (
     <>
-      <h1>Tracking Page</h1>
-      <br />
-
+      <div className="tracking-page-header">
+      <h1>Tracking</h1>
       <DatePicker disabledDate={disabledDate} defaultValue={dayjs()} onChange={onDateChange} />
       <Button
         type="primary"
@@ -112,7 +111,8 @@ export default function TrackingPage() {
         style={{ marginLeft: "1rem" }}
       >
         <SaveOutlined /> Save
-      </Button>
+        </Button>
+        </div>
       <div className="tracking-page-div">
         <div className="tracking-type-container">
           <h2 className="account-type">Saving Accounts</h2>
