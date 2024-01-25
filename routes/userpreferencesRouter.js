@@ -5,10 +5,11 @@ const userprefersController = require("../controllers/userprefersController");
 //* all paths start with 'api/userpreferences'
 
 //* lets start with birthday first
-router.get("/birthday/", userprefersController.indexBirthday);
+router.get("/birthday/all", userprefersController.indexBirthday);
 router.post("/birthday", userprefersController.createBirthday);
-router.get("/birthday/:id", userprefersController.getOneBirthday);
-router.put("/birthday/:id", userprefersController.updateBirthday);
+//? edit Ctrl, then come back here to remove :id
+router.get("/birthday/:id", userprefersController.getOneBirthday);    
+router.put("/birthday/", userprefersController.updateBirthday);
 
 // router.put("/birthday/:id", userprefersController.updateBirthday);
 

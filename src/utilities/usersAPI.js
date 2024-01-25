@@ -8,6 +8,7 @@ export async function signUp(userData) {
   return sendRequest(BASE_URL + '/', 'POST', userData);
 }
 
+
 //* login function
 export async function logIn(credentials) {
   return sendRequest(BASE_URL + '/login', 'POST', credentials);
@@ -17,8 +18,6 @@ export async function logIn(credentials) {
 export async function checkToken() {
   return sendRequest(`${BASE_URL}/check-token`);
 }
-
-
 
 
 //* template function 
