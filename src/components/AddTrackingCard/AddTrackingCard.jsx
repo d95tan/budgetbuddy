@@ -24,17 +24,23 @@ export default function AddTrackingCard({ type, addAccount }) {
     if (type === "investments") {
       account.deposit = Math.abs(account.deposit);
       if (account.dw === "minus") {
-        addAccount({
-          name: account.name,
-          amount: account.amount,
-          deposit: -account.deposit,
-        });
+        addAccount(
+          {
+            name: account.name,
+            amount: account.amount,
+            deposit: -account.deposit,
+          },
+          type
+        );
       } else {
-        addAccount({
-          name: account.name,
-          amount: account.amount,
-          deposit: account.deposit,
-        });
+        addAccount(
+          {
+            name: account.name,
+            amount: account.amount,
+            deposit: account.deposit,
+          },
+          type
+        );
       }
     } else {
       addAccount(account, type);
@@ -71,7 +77,11 @@ export default function AddTrackingCard({ type, addAccount }) {
   };
 
   const selectBefore = (
-    <Select defaultValue="add" style={{ width: "7rem" }} onChange={handleDWChange}>
+    <Select
+      defaultValue="add"
+      style={{ width: "7rem" }}
+      onChange={handleDWChange}
+    >
       <Option value="add">Deposit</Option>
       <Option value="minus">Withdrawal</Option>
     </Select>
@@ -85,8 +95,9 @@ export default function AddTrackingCard({ type, addAccount }) {
             placeholder={
               "New " + type.charAt(0).toUpperCase() + type.slice(1) + " Account"
             }
-            style={{ width: "90%"}}
+            style={{ width: "90%" }}
             onChange={handleNameChange}
+            value={account.name}
           />
         }
         style={{ width: "20rem" }}
@@ -106,6 +117,7 @@ export default function AddTrackingCard({ type, addAccount }) {
             parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             onChange={handleAmountChange}
             min={0}
+            value={account.amount}
           />
         </div>
 
@@ -129,6 +141,7 @@ export default function AddTrackingCard({ type, addAccount }) {
                 }
                 parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
                 onChange={handleDepositAmountChange}
+                value={account.deposit}
                 min={0}
                 style={{
                   width: "14rem",
