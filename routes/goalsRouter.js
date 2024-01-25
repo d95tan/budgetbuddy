@@ -5,6 +5,7 @@ const goalsController = require("../controllers/goalsController")
 
 router.get("/", goalsController.index);
 router.post("/", goalsController.create);
-router.delete("/:id", goalsController.deleteGoal);
+router.put("/:goalId", goalsController.updateGoal);
+router.delete("/:goalId", goalsController.deleteGoal);
 
 module.exports = router

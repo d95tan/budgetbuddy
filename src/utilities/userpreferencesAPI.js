@@ -7,8 +7,18 @@ export async function createBirthday(inputData) {
   return sendRequest(BASE_URL + '/birthday', 'POST', inputData);
 }
 
+//* getOne birthday function
+export async function getOneBirthday() {
+  return sendRequest(BASE_URL + '/birthday/:id', 'GET', );
+}
 
-//* template function 
+//* update birthday function
+export async function updateBirthday(updateData) {
+  return sendRequest(BASE_URL + '/birthday/', 'POST', updateData);
+}
+
+
+//* template function ==================================================
 export async function sendRequest(url, method = 'GET', payload = null) {
 
   const options = { method };
