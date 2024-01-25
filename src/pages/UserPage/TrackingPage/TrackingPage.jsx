@@ -104,11 +104,12 @@ export default function TrackingPage() {
     <>
       <div className="tracking-page-header">
       <h1>Tracking</h1>
-      <DatePicker disabledDate={disabledDate} defaultValue={dayjs()} onChange={onDateChange} />
+      <DatePicker disabledDate={disabledDate} defaultValue={dayjs()} onChange={onDateChange} size="large"/>
       <Button
         type="primary"
         onClick={handleClick}
-        style={{ marginLeft: "1rem" }}
+          style={{ marginLeft: "1rem" }}
+          size="large"
       >
         <SaveOutlined /> Save
         </Button>
