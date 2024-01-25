@@ -24,7 +24,7 @@ const createBirthday = async (req, res) => {
   try {
     const data = req.body;
     const userBirthday = await UserPreference.create(data);
-    res.json({ userBirthday });
+    res.json(userBirthday);
     // const token = usersController.createJWT(userbirthday);
     // res.json(token);
   }
@@ -35,7 +35,7 @@ const createBirthday = async (req, res) => {
 
 const indexBirthday = async (req, res) => {
   const userBirthday = await UserPreference.find({});
-  res.json({ userBirthday });
+  res.json(userBirthday);
 
 } 
 
@@ -53,12 +53,16 @@ const getOneBirthday = async (req, res) => {
 
 const updateBirthday = async (req, res) => {
   try {
-    const { userId } = req.params;
+    // const { userId } = req.params;
+    const userId = req.user._id;
+    console.log(userId);
+    console.log(req.user);
+    console.log(req.user._id);
+
     const data = req.body;
-    const userBirthday = await UserPreference.findByIdAndUpdate(userId, data);
-    res.json({ userBirthday });
-
-
+    const userBirthday = await UserPreference.findOneAndUpdate({userId: '65b1e39b32b62bbbf45ec035'}, data, { new: true });
+    res.json(userBirthday);
+    // res.json({msg: 'testing' });
     // const token = usersController.createJWT(userbirthday);
     // res.json(token);
   }
