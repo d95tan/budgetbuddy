@@ -1,32 +1,38 @@
-const baseURL = "/api/logs"
+import { getToken } from "./usersService"; 
 
-const headers = {
-  "Content-type": "application/json",
-  "Authorization": "Bearer <TOKEN>"
-}
+const baseURL = "/api/logs";
 
 export async function getLogs() {
+  const token = getToken(); 
+  const headers = {
+    "Content-type": "application/json",
+    "Authorization": `Bearer ${token}` 
+  };
 
   const options = {
-    method: "GET", 
+    method: "GET",
     headers
-  }
+  };
 
   const response = await fetch(baseURL, options);
-  const json = await response.json();
-
-  return json;
+  if (!response.ok) throw new Error('Network response was not ok.');
+  return await response.json();
 }
 
 export async function updateLogs(body) {
+  const token = getToken(); 
+  const headers = {
+    "Content-type": "application/json",
+    "Authorization": `Bearer ${token}` 
+  };
+
   const options = {
     method: "PUT",
     headers,
     body: JSON.stringify(body)
-  }
+  };
 
   const response = await fetch(baseURL, options);
-  const json = await response.json();
-
-  return json;
+  if (!response.ok) throw new Error('Network response was not ok.');
+  return await response.json();
 }
