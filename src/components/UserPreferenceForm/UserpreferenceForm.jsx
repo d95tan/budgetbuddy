@@ -4,6 +4,7 @@ import { Avatar, List, Modal } from 'antd';
 import { HistoryOutlined , StockOutlined , CalendarOutlined , LockOutlined } from "@ant-design/icons";
 import OurDatePicker from './DatePicker';
 import DropdownUpdateFreq from './dropdownUpdateFreq';
+import * as userpreferencesService from '../../utilities/userpreferencesService';
 
   
 export default function UserPreferenceForm() {   //? originally from AntD
@@ -48,10 +49,30 @@ export default function UserPreferenceForm() {   //? originally from AntD
   //   </>   );
 
   //* ok lets start working on the backend for User preferences
-  // const [ birthdate, setBirthdate ] = useState( getUserPreference() );
+  const [birthday, setBirthday] = useState("7 April 1915");
+  const [ updatefreq, setUpdatefreq ] = useState( "Monthly");
+  const [ income, setIncome ] = useState("$7,000");
+  const [password, setPassword] = useState("**********");
+  // const [ birthday, setBirthday ] = useState( null );
   // const [ income, setIncome ] = useState(10);
   // const [income, setIncome] = useState( getUserPreference() );
   // const [ updatefreq, setUpdatefreq ] = useState(getUserPreference());
+
+  //* SANDBOX START =====================================================================
+  useEffect(() => {
+    const fetchBirthday = async () => {
+      try {
+        const userPreference = await userpreferencesService.getOneBirthday();
+        setBirthday(userPreference.birthday);
+        console.log(birthday);
+      } catch (error) {
+        console.error('Error fetching user birthday:', error);
+      }
+    };
+
+    fetchBirthday();
+  }, [birthday]); // Empty dependency array means this effect runs once when the component mounts
+  //* SANDBOX END =====================================================================
 
 
   const preferlist = [
@@ -63,13 +84,13 @@ export default function UserPreferenceForm() {   //? originally from AntD
         <div>
           <h2>Update frequency</h2>
           <p>Custom content for Update frequency</p>
-          <DropdownUpdateFreq />
+          <DropdownUpdateFreq updatefreq={updatefreq} setUpdatefreq={setUpdatefreq} />
           {/* <label>freq</label>
           <input /> */}
           {/* lets do an AJAX GET in here first */}
         </div>
       ),
-      content: 'Contant', //to do AJAX GET from a db
+      content: updatefreq, //to do AJAX GET from a db
     },
     {
       title: "Current income",
@@ -85,7 +106,7 @@ export default function UserPreferenceForm() {   //? originally from AntD
           {/* lets do an AJAX GET in here first */}
         </div>
       ),
-      content: 'Content', //to do AJAX GET from a db
+      content: income, //to do AJAX GET from a db
     },
     {
       title: "Birthday",
@@ -97,10 +118,10 @@ export default function UserPreferenceForm() {   //? originally from AntD
           <h2>Birthdate</h2>
           <p>Custom content for updating your birthdate</p>
           {/* lets do an AJAX GET in here first */}
-          <OurDatePicker />
+          <OurDatePicker defaultValue={birthday} />
         </div>
       ),
-      content: 'Contint', //to do AJAX GET from a db
+      content:  birthday , //to do AJAX GET from a db // UPDATE
     },
     {
       title: "Password",
@@ -119,7 +140,7 @@ export default function UserPreferenceForm() {   //? originally from AntD
           <input />
         </div>
       ),
-      content: 'Contont', //to do AJAX GET from a db
+      content: password, //to do AJAX GET from a db
     },
     // {
     //   title: '',
