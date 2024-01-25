@@ -151,7 +151,7 @@ export default function EditTable({ logs, setLogs }) {
   }, [updatedIds]);
 
   const handleClick = async () => {
-    const updatedLogs = packageLogs(logs, data, updatedIds);
+    try {const updatedLogs = packageLogs(logs, data, updatedIds);
     const response = await updateLogs(updatedLogs);
     const responseIds = [];
     for (const r of response) {
@@ -163,7 +163,10 @@ export default function EditTable({ logs, setLogs }) {
 
     const sorted = sortLogs(newLogs);
     setLogs(sorted);
-    setUpdatedIds([]);
+      setUpdatedIds([]);
+    } catch {
+      window.alert("Error")
+    }
   };
 
   const handleSave = (row) => {
