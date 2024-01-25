@@ -1,14 +1,23 @@
+import "./GoalsPage.css";
 import { useState, useEffect } from "react";
 import { Card, Space, Modal, Input, Button } from "antd";
-import { getGoals, updateGoal } from "../../../utilities/goalsService";
+import {
+  createGoal,
+  deleteGoal,
+  getGoals,
+  updateGoal,
+} from "../../../utilities/goalsService";
 import { DatePicker, Progress } from "antd";
 import dayjs from "dayjs";
+import { getUser } from "../../../utilities/usersService";
 
 export default function GoalsPage() {
   const [visible, setVisible] = useState(false);
+  const [newCardVisible, setNewCardVisible] = useState(false);
   const [goals, setGoals] = useState([]);
   const [cardData, setCardData] = useState({
     _id: null,
+    userId: getUser()._id,
     name: "",
     description: "",
     endDate: "",
@@ -75,40 +84,63 @@ export default function GoalsPage() {
 
   const handleClose = () => {
     setVisible(false);
+    setNewCardVisible(false);
   };
 
   const handleSave = async () => {
-    // try {
+    let temp = [...goals];
+    try {
       const updatedGoal = await updateGoal(cardData);
-    //   if (cardData._id) {
-    //     setGoals(
-    //       goals.map((goal) => (goal._id === cardData._id ? updatedGoal : goal))
-    //     );
-    //   } else {
-    //     setGoals([...goals, updatedGoal]);
-    //   }
-    //   setVisible(false);
-    // } catch (error) {
-    //   console.error("Error updating goal:", error);
-    // }
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i]._id === updatedGoal._id) {
+          temp[i] = updatedGoal;
+          break;
+        }
+      }
+      setGoals(temp);
+      console.log(goals);
+      setVisible(false);
+    } catch (e) {
+      window.alert("Something went wrong");
+    }
   };
 
   const handleAddNew = () => {
     setCardData({
-      _id: null,
+      userId: getUser()._id,
       name: "",
       description: "",
       endDate: "",
       targetAmount: 0,
       currentAmount: 0,
     });
-    setVisible(true);
+    setNewCardVisible(true);
   };
+
+  const handleCreate = async () => {
+    try {
+      const newGoal = await createGoal(cardData);
+      setGoals([...goals, newGoal]);
+      setNewCardVisible(false);
+    } catch (e) {
+      window.alert("Something went here wrong");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const deleted = await deleteGoal(cardData._id)
+      setGoals(goals.filter(goal => goal._id !== deleted._id))
+      setVisible(false)
+    } catch (e) {
+      window.alert("Something went wrong while deleting")
+    }
+  }
 
   return (
     <>
       <h1>Goals Page</h1>
-      <Space direction="vertical" size={16}>
+      <div className="goals-container">
         {goals.map((goal) => {
           const progressPercent =
             goal.targetAmount > 0
@@ -136,13 +168,17 @@ export default function GoalsPage() {
         <Card onClick={handleAddNew} style={{ width: 300, cursor: "pointer" }}>
           <p>Add New Goal</p>
         </Card>
-      </Space>
+      </div>
+
       <Modal
         title="Edit Goal"
         open={visible}
         onOk={handleSave}
         onCancel={handleClose}
         footer={[
+          <Button key="back" danger type="primary" onClick={handleDelete}>
+            Delete
+          </Button>,
           <Button key="back" onClick={handleClose}>
             Cancel
           </Button>,
@@ -165,6 +201,55 @@ export default function GoalsPage() {
         />
         <DatePicker
           value={dayjs(cardData.endDate)}
+          onChange={(date, dateString) =>
+            setCardData({ ...cardData, endDate: dateString })
+          }
+        />
+        <Input
+          value={cardData.targetAmount}
+          onChange={(e) =>
+            setCardData({ ...cardData, targetAmount: e.target.value })
+          }
+          placeholder="Target Amount"
+        />
+        <Input
+          value={cardData.currentAmount}
+          onChange={(e) =>
+            setCardData({ ...cardData, currentAmount: e.target.value })
+          }
+          placeholder="Current Amount"
+        />
+      </Modal>
+
+      <Modal
+        title="New Goal"
+        open={newCardVisible}
+        onOk={handleCreate}
+        onCancel={handleClose}
+        footer={[
+          <Button key="back" onClick={handleClose}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary" onClick={handleCreate}>
+            Save
+          </Button>,
+        ]}
+      >
+        <Input
+          value={cardData.name}
+          onChange={(e) => setCardData({ ...cardData, name: e.target.value })}
+          placeholder="Name"
+        />
+        <Input
+          value={cardData.description}
+          onChange={(e) =>
+            setCardData({ ...cardData, description: e.target.value })
+          }
+          placeholder="Description"
+        />
+        <DatePicker
+          defaultValue={dayjs()}
+          valeu={dayjs()}
           onChange={(date, dateString) =>
             setCardData({ ...cardData, endDate: dateString })
           }

@@ -10,12 +10,6 @@ const headers = {
 }
 
 export async function getLogs() {
-  const token = getToken(); 
-  const headers = {
-    "Content-type": "application/json",
-    "Authorization": `Bearer ${token}` 
-  };
-
   const options = {
     method: "GET",
     headers
@@ -27,12 +21,6 @@ export async function getLogs() {
 }
 
 export async function updateLogs(body) {
-  const token = getToken(); 
-  const headers = {
-    "Content-type": "application/json",
-    "Authorization": `Bearer ${token}` 
-  };
-
   const options = {
     method: "PUT",
     headers,

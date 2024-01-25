@@ -1,11 +1,9 @@
 const Log = require("../models/log");
 
 const index = async (req, res) => {
-  // const {userId} = req.get("Authorization").split(" ")[1]
-  // const logs = await Log.find({userId})
-  console.log(req.user);
+  const userId = req.user._id;
   try {
-    const logs = await Log.find({ userId: req.user._id });
+    const logs = await Log.find({ userId });
     logs.sort((a, b) => {
       const dateA = a.date;
       const dateB = b.date;
@@ -28,6 +26,7 @@ const create = async (req, res) => {
   const userId = req.user._id;
   if (data.userId !== userId) {
     res.status(401).json({ msg: "userID tak match" });
+    return
   }
   try {
     const log = await Log.create(data);
@@ -45,6 +44,7 @@ const updateMany = async (req, res) => {
     for (const item of data) {
       if (item.userId !== userId) {
         res.status(401).json({ msg: "userID tak match" });
+        return
       }
       const log = await Log.findByIdAndUpdate(item.id, item, { new: true });
       response.push(log);
@@ -62,6 +62,7 @@ const deleteOne = async (req, res) => {
     const log = await Log.findOneAndDelete({ _id: logId, userId });
     if (!log) {
       res.status(401).json({ userId, logId, log });
+      return
     }
     res.json(log);
   } catch (e) {
