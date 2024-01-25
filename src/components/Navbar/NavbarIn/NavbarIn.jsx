@@ -2,12 +2,13 @@ import "../Navbar.css";
 import { SettingOutlined } from "@ant-design/icons";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Layout, Button, Menu } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const { Header } = Layout;
 import * as usersService from "../../../utilities/usersService";
 
-export default function NavbarIn({ user, setUser }) {
+export default function NavbarIn({ user, setUser, logs, setLogs,goals, setGoals }) {
   let page = useLocation().pathname.split("/")[2];
+  const navigate = useNavigate();
 
   const items = [
     {
@@ -45,9 +46,13 @@ export default function NavbarIn({ user, setUser }) {
   ];
 
   //* J 24/1 0330: temporary addition - logout button
-  function handleLogOut() {
+  function handleLogOut(e) {
+    e.preventDefault();
+    setLogs([]);
+    setGoals([]);
     usersService.logOut();
     setUser(null);
+    navigate("/login")
   }
 
   return (

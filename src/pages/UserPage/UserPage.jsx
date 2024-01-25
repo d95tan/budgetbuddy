@@ -22,7 +22,7 @@ export default function UserPage({ user, setUser }) {
 
   return (
     <>
-      <NavbarIn user={user} setUser={setUser} />
+      <NavbarIn user={user} setUser={setUser} logs={logs} setLogs={setLogs} goals={goals} setGoals={setGoals} />
       {/* <h1>User Page</h1> */}
       <Outlet context={{ logs, setLogs, goals, setGoals }} />
     </>
