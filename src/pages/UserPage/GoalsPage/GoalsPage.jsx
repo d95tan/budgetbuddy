@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Space, Modal, Input, Button } from 'antd';
-// import { getLogs, updateLogs } from '../../utilities/logsAPI';
+import { getGoals, updateGoals } from '../../../utilities/goalsService';
+import OurDatePicker from '../../components/UserPreferenceForm/DatePicker';
+import dayjs from 'dayjs';
 
 export default function GoalsPage() {
   const [visible, setVisible] = useState(false);
-  const [logs, setLogs] = useState([]);
+  const [goals, setGoals] = useState([]); 
   const [cardData, setCardData] = useState({
     _id: null,
     name: '',
@@ -14,22 +16,57 @@ export default function GoalsPage() {
     currentAmount: 0
   });
 
-  useEffect(() => {
-    const fetchLogs = async () => {
-      try {
-        const data = await getLogs();
-        setLogs(data);
-      } catch (error) {
-        console.error('Failed to fetch logs:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchGoals = async () => {
+  //     try {
+  //       const data = await getGoals();
+  //       setGoals(data); 
+  //     } catch (error) {
+  //       console.error('Failed to fetch goals:', error);
+  //     }
+  //   };
 
-    fetchLogs();
+  //   fetchGoals();
+  // }, []);
+
+    useEffect(() => {
+    populateSampleData();
   }, []);
 
-  const handleClickOpen = (log, event) => {
+  const populateSampleData = () => {
+    const sampleGoals = [
+      {
+        _id: '1',
+        name: 'Emergency Fund',
+        description: 'Save for unexpected expenses',
+        endDate: new Date(2023, 11, 31).toISOString(),
+        targetAmount: 1000,
+        currentAmount: 200
+      },
+      {
+        _id: '2',
+        name: 'Vacation',
+        description: 'Trip to Hawaii',
+        endDate: new Date(2024, 5, 15).toISOString(),
+        targetAmount: 5000,
+        currentAmount: 1000
+      },
+      {
+        _id: '3',
+        name: 'Retirement',
+        description: 'Retirement savings account',
+        endDate: new Date(2040, 0, 1).toISOString(),
+        targetAmount: 500000,
+        currentAmount: 75000
+      },
+      
+    ];
+    setGoals(sampleGoals);
+  };
+
+  const handleClickOpen = (goal, event) => {
     event.preventDefault();
-    setCardData(log);
+    setCardData(goal);
     setVisible(true);
   };
 
@@ -39,15 +76,15 @@ export default function GoalsPage() {
 
   const handleSave = async () => {
     try {
-      const updatedLog = await updateLogs(cardData);
+      const updatedGoal = await updateGoals(cardData); 
       if (cardData._id) {
-        setLogs(logs.map((log) => log._id === cardData._id ? updatedLog : log));
+        setGoals(goals.map((goal) => goal._id === cardData._id ? updatedGoal : goal));
       } else {
-        setLogs([...logs, updatedLog]);
+        setGoals([...goals, updatedGoal]);
       }
       setVisible(false);
     } catch (error) {
-      console.error('Error updating log:', error);
+      console.error('Error updating goal:', error);
     }
   };
 
@@ -67,19 +104,23 @@ export default function GoalsPage() {
     <>
       <h1>Goals Page</h1>
       <Space direction="vertical" size={16}>
-        {logs.map((log) => (
-          <Card
-            key={log._id}
-            title={log.name}
-            extra={<a href="#" onClick={(event) => handleClickOpen(log, event)}>Edit</a>}
-            style={{ width: 300 }}
-          >
-            <p>Description: {log.description}</p>
-            <p>End Date: {new Date(log.endDate).toLocaleDateString()}</p>
-            <p>Target Amount: ${log.targetAmount.toFixed(2)}</p>
-            <p>Current Amount: ${log.currentAmount.toFixed(2)}</p>
-          </Card>
-        ))}
+        {goals.map((goal) => {
+          const progressPercent = goal.targetAmount > 0 ? (goal.currentAmount / goal.targetAmount) * 100 : 0;
+          return (
+            <Card
+              key={goal._id}
+              title={goal.name}
+              extra={<a href="#" onClick={(event) => handleClickOpen(goal, event)}>Edit</a>}
+              style={{ width: 300 }}
+            >
+              <p>Description: {goal.description}</p>
+              <p>End Date: {new Date(goal.endDate).toLocaleDateString()}</p>
+              <p>Target Amount: ${goal.targetAmount.toFixed(2)}</p>
+              <p>Current Amount: ${goal.currentAmount.toFixed(2)}</p>
+              <Progress percent={progressPercent} size="small" />
+            </Card>
+          );
+        })}
         <Card
           onClick={handleAddNew}
           style={{ width: 300, cursor: 'pointer' }}
@@ -89,7 +130,7 @@ export default function GoalsPage() {
       </Space>
       <Modal
         title="Edit Goal"
-        visible={visible}
+        open={visible}
         onOk={handleSave}
         onCancel={handleClose}
         footer={[
@@ -111,10 +152,9 @@ export default function GoalsPage() {
           onChange={(e) => setCardData({ ...cardData, description: e.target.value })}
           placeholder="Description"
         />
-        <Input 
-          value={cardData.endDate} 
-          onChange={(e) => setCardData({ ...cardData, endDate: e.target.value })}
-          placeholder="End Date"
+        <OurDatePicker 
+          value={dayjs(cardData.endDate)} 
+          onChange={(date, dateString) => setCardData({ ...cardData, endDate: dateString })}
         />
         <Input 
           value={cardData.targetAmount} 
