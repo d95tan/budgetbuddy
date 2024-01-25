@@ -198,7 +198,6 @@ export default function GoalsPage() {
         />
         <DatePicker
           defaultValue={dayjs()}
-          valeu={dayjs()}
           onChange={(date, dateString) =>
             setCardData({ ...cardData, endDate: dateString })
           }
