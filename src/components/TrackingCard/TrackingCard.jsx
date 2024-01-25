@@ -15,7 +15,7 @@ export default function TrackingCard({
   const [depositWithdraw, setDepositWithdraw] = useState("add");
 
   const handleAmountChange = (value) => {
-    console.log(value);
+    // console.log(value);
     updateNewLogAmount(value, account, type);
   };
 
@@ -66,6 +66,7 @@ export default function TrackingCard({
             parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
             onChange={handleAmountChange}
             min={0}
+            value={account.amount}
           />
         </div>
         {type === "savings" ? (

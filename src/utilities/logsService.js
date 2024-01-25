@@ -74,12 +74,14 @@ export function createNewLogState(logs) {
     return { userId, date: new Date(), savings: [], investments: [], liabilities: [] };
   }
 
-  const newLog = structuredClone({
-    savings: logs[0]?.savings,
-    investments: logs[0]?.investments,
-    liabilities: logs[0]?.liabilities,
+  const temp = structuredClone(logs)
+
+  const newLog = {
+    savings: temp[0]?.savings,
+    investments: temp[0]?.investments,
+    liabilities: temp[0]?.liabilities,
     userId,
-  });
+  };
 
   newLog.date = new Date(Date.now());
 
