@@ -9,7 +9,7 @@ import {
   sortLogs,
   updateLogs,
 } from "../../utilities/logsService";
-import { SaveOutlined } from "@ant-design/icons";
+import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const EditableContext = createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -101,13 +101,14 @@ export default function EditTable({ logs, setLogs }) {
   const deleteColumn = {
     title: "Action",
     key: "action",
+    width: "8%",
     render: (_, record) =>
       data.length >= 1 ? (
         <Popconfirm
           title="Sure to delete?"
           onConfirm={() => handleDelete(record.key)}
         >
-          <a>Delete</a>
+          <a><DeleteOutlined /> Delete</a>
         </Popconfirm>
       ) : null,
   };
@@ -179,8 +180,8 @@ export default function EditTable({ logs, setLogs }) {
   };
 
   const handleDelete = async (key) => {
-    const toDelete = data.find((item) => item.key === key)
-    const response = await deleteLog(toDelete)
+    const toDelete = data.find((item) => item.key === key);
+    const response = await deleteLog(toDelete);
     const newLogs = logs.filter((item) => item.id !== response?.id);
     setLogs(newLogs);
   };
@@ -193,7 +194,9 @@ export default function EditTable({ logs, setLogs }) {
   };
 
   return (
-    <>
+    <div className="edit-table">
+      <div className="edit-table-header" >
+      <h1>Edit</h1>
       <Button
         type="primary"
         className="save-button"
@@ -201,7 +204,8 @@ export default function EditTable({ logs, setLogs }) {
         disabled={!updatedIds.length}
       >
         <SaveOutlined /> Save
-      </Button>
+        </Button>
+        </div>
       <Table
         components={components}
         rowClassName={() => "editable-row"}
@@ -219,6 +223,6 @@ export default function EditTable({ logs, setLogs }) {
           </button>
         </div>
       ) : null} */}
-    </>
+    </div>
   );
 }
