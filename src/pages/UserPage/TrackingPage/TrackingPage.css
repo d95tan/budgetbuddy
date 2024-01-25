@@ -1,0 +1,20 @@
+.tracking-page-div {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tracking-container {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.account-type {
+  padding-left: 1rem;
+}

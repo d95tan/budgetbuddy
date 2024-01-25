@@ -27,7 +27,13 @@ export async function updateLogs(logs) {
   return formatDateFromFetch(response);
 }
 
-export function getColumnHeaders(logs, extra = false) {
+export async function createLog(log) {
+  const response = await logsAPI.createLog(log);
+
+  return formatDateFromFetch([response]);
+}
+
+export function getAccountNames(logs) {
   const savingsAccNames = [];
   const investmentAccNames = [];
   const liabilityAccNames = [];
@@ -49,16 +55,52 @@ export function getColumnHeaders(logs, extra = false) {
       }
     }
   }
+  return { savingsAccNames, investmentAccNames, liabilityAccNames };
+}
 
+export function createNewLogState(logs) {
+  if (!logs) {
+    return { savings: [], investments: [], liabilities: [] };
+  }
+
+  const newLog = structuredClone({
+    savings: logs[0].savings,
+    investments: logs[0].investments,
+    liabilities: logs[0].liabilities,
+    userId: logs[0].userId,
+  });
+
+  newLog.date = new Date(Date.now());
+
+  for (const account of newLog.savings) {
+    account.amount = 0;
+    delete account._id;
+  }
+  for (const account of newLog.investments) {
+    account.amount = 0;
+    delete account._id;
+  }
+  for (const account of newLog.liabilities) {
+    account.amount = 0;
+    delete account._id;
+  }
+
+  return newLog;
+}
+
+export function getColumnHeaders(logs, extra = false) {
+  const { savingsAccNames, investmentAccNames, liabilityAccNames } =
+    getAccountNames(logs);
   let width;
 
   if (extra) {
     width =
-    90 /
-      (4 + savingsAccNames.length +
-        investmentAccNames.length +
-        liabilityAccNames.length) +
-    "%";
+      90 /
+        (4 +
+          savingsAccNames.length +
+          investmentAccNames.length +
+          liabilityAccNames.length) +
+      "%";
   } else {
     width =
       90 /
@@ -69,7 +111,7 @@ export function getColumnHeaders(logs, extra = false) {
   }
 
   const allAccNames = [
-    { Title: "Date", dataIndex: "date", width: "10%", className: "date"},
+    { Title: "Date", dataIndex: "date", width: "10%", className: "date" },
     ...savingsAccNames.map((name) => {
       return {
         title: name,
@@ -106,11 +148,12 @@ export function getColumnHeaders(logs, extra = false) {
         dataIndex: "total",
         width,
         className: "totals",
-        },{
-          title: "Growth",
-          dataIndex: "growth",
-          width,
-          className: "totals",
+      },
+      {
+        title: "Growth",
+        dataIndex: "growth",
+        width,
+        className: "totals",
       },
       {
         title: "Savings",
@@ -134,7 +177,7 @@ export function getColumnHeaders(logs, extra = false) {
 
 export function flattenLogs(logs) {
   const flattened = [];
-  logs.forEach((log,i) => {
+  logs.forEach((log, i) => {
     const data = {};
     data.key = log.date;
     data.date = log.date;
@@ -148,10 +191,13 @@ export function flattenLogs(logs) {
     for (let account of log.liabilities) {
       data["l-" + account.name] = numToCurrency(account.amount);
     }
-    data.total = numToCurrency(log.total)
-    data.totalInvestments = numToCurrency(log.totalInvestments)
-    data.totalSavings = numToCurrency(log.totalSavings)
-    data.growth = i === logs.length-1 ? "na" : numToCurrency(log.total - logs[i+1].total)
+    data.total = numToCurrency(log.total);
+    data.totalInvestments = numToCurrency(log.totalInvestments);
+    data.totalSavings = numToCurrency(log.totalSavings);
+    data.growth =
+      i === logs.length - 1
+        ? "na"
+        : numToCurrency(log.total - logs[i + 1].total);
     flattened.push(data);
   });
   // console.log(flattened)
