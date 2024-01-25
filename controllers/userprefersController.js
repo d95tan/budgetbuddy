@@ -5,7 +5,7 @@ const usersController = require('./usersController');
 
 //? hypothesis: this doesnt work, because you need a unique userID
 // const createBirthday = async (req, res) => {
-//   // const { birthday } = req.body; 
+//   // const { birthday } = req.body;
 //   try {
 //     const data = req.body;
 //     const userBirthday = await UserPreference.createBirthday(data);
@@ -17,6 +17,13 @@ const usersController = require('./usersController');
 //     res.status(400).json(err);
 //   }
 //   }
+
+
+const createUserPrefer = async (req, res) => {
+  const data = req.body
+  const userP = await UserPreference.create(data)
+  res.json(userP)
+}
 
 //? hypothesis: try implementing it 
 const createBirthday = async (req, res) => {
@@ -99,7 +106,7 @@ module.exports = {
   indexBirthday,
   getOneBirthday,
   updateBirthday,
-
+  createUserPrefer,
   createIncome,
   indexIncome,
 }

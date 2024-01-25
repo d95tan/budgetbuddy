@@ -3,6 +3,7 @@ const router = express.Router();
 const userprefersController = require("../controllers/userprefersController");
 
 //* all paths start with 'api/userpreferences'
+router.post("/", userprefersController.createUserPrefer)
 
 //* lets start with birthday first
 router.get("/birthday/all", userprefersController.indexBirthday);
