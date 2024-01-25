@@ -1,7 +1,8 @@
 import { useContext, createContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Table } from "antd";
+import { Button, Form, Input, Table, Popconfirm } from "antd";
 import "./EditTable.css";
 import {
+  deleteLog,
   flattenLogs,
   getColumnHeaders,
   packageLogs,
@@ -92,12 +93,28 @@ export default function EditTable({ logs, setLogs }) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    setData(flattenLogs(logs))
-  }, [logs])
+    setData(flattenLogs(logs));
+  }, [logs]);
 
   const [updatedIds, setUpdatedIds] = useState([]);
 
+  const deleteColumn = {
+    title: "Action",
+    key: "action",
+    render: (_, record) =>
+      data.length >= 1 ? (
+        <Popconfirm
+          title="Sure to delete?"
+          onConfirm={() => handleDelete(record.key)}
+        >
+          <a>Delete</a>
+        </Popconfirm>
+      ) : null,
+  };
+
   const columnHeaders = getColumnHeaders(logs);
+
+  columnHeaders.push(deleteColumn);
 
   const columns = columnHeaders.map((col) => {
     if (!col.editable) {
@@ -139,9 +156,11 @@ export default function EditTable({ logs, setLogs }) {
     for (const r of response) {
       responseIds.push(r.id);
     }
-    const newLogs = logs.filter((log) => !responseIds.includes(log.id)).concat(response);
+    const newLogs = logs
+      .filter((log) => !responseIds.includes(log.id))
+      .concat(response);
 
-    const sorted = sortLogs(newLogs)
+    const sorted = sortLogs(newLogs);
     setLogs(sorted);
     setUpdatedIds([]);
   };
@@ -157,6 +176,13 @@ export default function EditTable({ logs, setLogs }) {
     });
     setUpdatedIds([...updatedIds, data[index].id]);
     setData(newData);
+  };
+
+  const handleDelete = async (key) => {
+    const toDelete = data.find((item) => item.key === key)
+    const response = await deleteLog(toDelete)
+    const newLogs = logs.filter((item) => item.id !== response?.id);
+    setLogs(newLogs);
   };
 
   const components = {

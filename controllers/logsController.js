@@ -3,37 +3,75 @@ const Log = require("../models/log");
 const index = async (req, res) => {
   // const {userId} = req.get("Authorization").split(" ")[1]
   // const logs = await Log.find({userId})
-  const logs = await Log.find({});
-  logs.sort((a, b) => {
-    const dateA = a.date;
-    const dateB = b.date;
-    if (dateA < dateB) {
-      return 1;
-    } else {
-      return -1;
-    }
-  })
-  res.json(logs)
-} 
+  console.log(req.user);
+  try {
+    const logs = await Log.find({ userId: req.user });
+    logs.sort((a, b) => {
+      const dateA = a.date;
+      const dateB = b.date;
+      if (dateA < dateB) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    console.log(logs);
+    res.json(logs);
+  } catch (e) {
+    res.status(500).json(e);
+  }
+};
 
 const create = async (req, res) => {
   const data = req.body;
-  const log = await Log.create(data);
-  res.json(log)
-}
+  console.log(req.user._id)
+  const userId = req.user._id;
+  if (data.userId !== userId) {
+    res.status(401).json({ msg: "userID tak match" });
+  }
+  try {
+    const log = await Log.create(data);
+    res.status(201).json(log);
+  } catch (e) {
+    res.status(500).json(e);
+  }
+};
 
 const updateMany = async (req, res) => {
   const data = req.body;
+  const userId = req.user._id;
   const response = [];
-  for (const item of data) {
-    const log = await Log.findByIdAndUpdate(item.id, item, {new: true})
-    response.push(log);
+  try {
+    for (const item of data) {
+      if (item.userId !== userId) {
+        res.status(401).json({ msg: "userID tak match" });
+      }
+      const log = await Log.findByIdAndUpdate(item.id, item, { new: true });
+      response.push(log);
+    }
+    res.status(200).json(response);
+  } catch (e) {
+    res.status(500).json(e);
   }
-  res.json(response)
-}
+};
+
+const deleteOne = async (req, res) => {
+  const { logId } = req.params;
+  const userId = req.user._id;
+  try {
+    const log = await Log.findOneAndDelete({ _id: logId, userId });
+    if (!log) {
+      res.status(401).json({ msg: "userID tak match" });
+    }
+    res.json(log);
+  } catch (e) {
+    res.status(500).json(e);
+  }
+};
 
 module.exports = {
   index,
   create,
-  updateMany
-}
+  updateMany,
+  deleteOne,
+};

@@ -4,9 +4,9 @@ const { Option } = Select;
 
 export default function AddTrackingCard({ type, addAccount }) {
   const newAccount = {
-    savings: { name: null, amount: null, isShared: false },
-    investments: { name: null, amount: null, deposit: null, dw: "add" },
-    liabilities: { name: null, amount: null },
+    savings: { name: null, amount: 0, isShared: false },
+    investments: { name: null, amount: 0, deposit: 0, dw: "add" },
+    liabilities: { name: null, amount: 0 },
   };
 
   const [account, setAccount] = useState({...newAccount[type]});

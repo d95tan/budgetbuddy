@@ -33,6 +33,13 @@ export async function createLog(log) {
   return formatDateFromFetch([response]);
 }
 
+export async function deleteLog(log) {
+  const id = log.id
+  const response = await logsAPI.deleteLog(id)
+  console.log(response);
+  return response;
+}
+
 export function getAccountNames(logs) {
   const savingsAccNames = [];
   const investmentAccNames = [];
@@ -59,30 +66,30 @@ export function getAccountNames(logs) {
 }
 
 export function createNewLogState(logs) {
-  if (!logs) {
+  if (!logs || typeof logs[0] === "undefined") {
     return { savings: [], investments: [], liabilities: [] };
   }
 
   const newLog = structuredClone({
-    savings: logs[0].savings,
-    investments: logs[0].investments,
-    liabilities: logs[0].liabilities,
-    userId: logs[0].userId,
+    savings: logs[0]?.savings,
+    investments: logs[0]?.investments,
+    liabilities: logs[0]?.liabilities,
+    userId: logs[0]?.userId,
   });
 
   newLog.date = new Date(Date.now());
 
   for (const account of newLog.savings) {
     account.amount = 0;
-    delete account._id;
+    delete account?._id;
   }
   for (const account of newLog.investments) {
     account.amount = 0;
-    delete account._id;
+    delete account?._id;
   }
   for (const account of newLog.liabilities) {
     account.amount = 0;
-    delete account._id;
+    delete account?._id;
   }
 
   return newLog;
@@ -103,7 +110,7 @@ export function getColumnHeaders(logs, extra = false) {
       "%";
   } else {
     width =
-      90 /
+      80 /
         (savingsAccNames.length +
           investmentAccNames.length +
           liabilityAccNames.length) +
@@ -111,7 +118,7 @@ export function getColumnHeaders(logs, extra = false) {
   }
 
   const allAccNames = [
-    { Title: "Date", dataIndex: "date", width: "10%", className: "date" },
+    { title: "Date", dataIndex: "date", width: "10%", className: "date" },
     ...savingsAccNames.map((name) => {
       return {
         title: name,
@@ -170,7 +177,7 @@ export function getColumnHeaders(logs, extra = false) {
     ];
 
     return allAccNames.concat(dashBoardColumns);
-  }
+  } 
   // console.log(allAccNames);
   return allAccNames;
 }

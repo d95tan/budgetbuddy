@@ -1,5 +1,5 @@
 import "./TrackingPage.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker, Button } from "antd";
 import { SaveOutlined } from "@ant-design/icons";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -13,10 +13,13 @@ import dayjs from "dayjs";
 import AddTrackingCard from "../../../components/AddTrackingCard/AddTrackingCard";
 
 export default function TrackingPage() {
-  const navigate = useNavigate();
   const [logs, setLogs] = useOutletContext();
+  const [newLog, setNewLog] = useState({savings: [], investments: [], liabilities: []});
+  const navigate = useNavigate();
 
-  const [newLog, setNewLog] = useState(createNewLogState(logs));
+  useEffect(() => {
+    setNewLog(createNewLogState(logs))
+  },[logs])
 
   const updateNewLogAmount = (value, account, type) => {
     const temp = structuredClone(newLog);
@@ -27,24 +30,23 @@ export default function TrackingPage() {
       }
     }
     setNewLog(temp);
-    // console.log(newLog)
+    console.log(newLog)
   };
 
   const addAccount = (account, type) => {
     console.log("Add Account", account, type);
     const temp = structuredClone(newLog);
-    temp[type].push({ ...account, key: account.name });
+    temp[type].push(account);
     setNewLog(temp);
   };
 
   const deleteAccount = (account, type) => {
-    const temp = structuredClone(newLog);
-    for (let i = 0; i < temp[type].length; i++) {
-      if (temp[type][i].name === account.name) {
-        delete temp[type][i];
-      }
-    }
-    setNewLog(temp);
+    const temp = structuredClone(newLog[type]).filter(l => l.name !== account.name)
+
+    const removed = structuredClone(newLog)
+    removed[type] = temp;
+
+    setNewLog(removed);
   };
 
   const updateDepositAmount = (value, account) => {
@@ -89,7 +91,7 @@ export default function TrackingPage() {
   };
 
   const handleClick = async () => {
-    console.log("clicked!");
+    // console.log("clicked!");
     const response = await createLog(newLog);
     console.log(response);
     const temp = structuredClone(logs).concat(response);
