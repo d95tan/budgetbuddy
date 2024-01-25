@@ -5,7 +5,7 @@ const index = async (req, res) => {
   // const logs = await Log.find({userId})
   console.log(req.user);
   try {
-    const logs = await Log.find({ userId: req.user });
+    const logs = await Log.find({ userId: req.user._id });
     logs.sort((a, b) => {
       const dateA = a.date;
       const dateB = b.date;
@@ -61,7 +61,7 @@ const deleteOne = async (req, res) => {
   try {
     const log = await Log.findOneAndDelete({ _id: logId, userId });
     if (!log) {
-      res.status(401).json({ msg: "userID tak match" });
+      res.status(401).json({ userId, logId, log });
     }
     res.json(log);
   } catch (e) {
