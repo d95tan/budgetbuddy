@@ -9,12 +9,19 @@ export default function DashboardNumbers({ logs }) {
   const latest = logs?.[0];
   const previous = logs?.[1];
 
-  const totalChange = (100 * (latest.total - previous.total)) / previous.total;
-  const investmentsChange =
-    (100 * (latest.totalInvestments - previous.totalInvestments)) /
-    previous.totalInvestments;
-  const savingsChange = (100 * (latest.totalSavings - previous.totalSavings)) / previous.totalSavings;
+  let totalChange, investmentsChange, savingsChange;
 
+  if (previous) {
+    totalChange = (100 * (latest.total - previous.total)) / previous.total;
+    investmentsChange =
+      (100 * (latest.totalInvestments - previous.totalInvestments)) /
+      previous.totalInvestments;
+    savingsChange = (100 * (latest.totalSavings - previous.totalSavings)) / previous.totalSavings;
+  } else {
+    totalChange = false;
+    investmentsChange = false;
+    savingsChange = false;
+  }
   const bigStyle = {
     fontSize: "3rem",
   };
@@ -34,56 +41,51 @@ export default function DashboardNumbers({ logs }) {
         <div className="paired">
           <Statistic
             title="TOTAL ASSET VALUE"
-            value={latest.total}
+            value={latest?.total ? latest.total : 0}
             valueStyle={bigStyle}
             prefix="$"
             formatter={formatter}
           />
-          <Statistic
+          {totalChange ? <Statistic
             value={totalChange}
             precision={2}
             valueStyle={totalChange >= 0 ? changeStylePositive : changeStyleNegative}
-            prefix={totalChange >0 ? <ArrowUpOutlined /> : <ArrowDownOutlined/>}
+            prefix={totalChange > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix="%"
-          />
+          /> : null}
         </div>
         <div className="paired">
           <Statistic
             title="INVESTMENTS"
-            value={latest.totalInvestments}
+            value={latest?.totalInvestments}
             valueStyle={smallStyle}
             prefix="$"
             formatter={formatter}
           />
-          <Statistic
+          {investmentsChange ? <Statistic
             value={investmentsChange}
             precision={2}
             valueStyle={investmentsChange >= 0 ? changeStylePositive : changeStyleNegative}
-            prefix={investmentsChange >0 ? <ArrowUpOutlined /> : <ArrowDownOutlined/>}
+            prefix={investmentsChange > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix="%"
-          />
+          /> : null}
         </div>
         <div className="paired">
           <Statistic
             title="SAVINGS"
-            value={latest.totalSavings}
+            value={latest?.totalSavings}
             valueStyle={smallStyle}
             prefix="$"
             formatter={formatter}
           />
-          <Statistic
+          {savingsChange ? <Statistic
             value={savingsChange}
             precision={2}
             valueStyle={savingsChange >= 0 ? changeStylePositive : changeStyleNegative}
-            prefix={savingsChange >0 ? <ArrowUpOutlined /> : <ArrowDownOutlined/>}
+            prefix={savingsChange > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix="%"
-          />
+          /> : null}
         </div>
-
-        {/* <h4>INVESTMENTS</h4>
-        <h2>{investments}</h2>
-        <h4>SAVINGS</h4>
-        <h2>{savings}</h2> */}
       </div>
     </>
   );

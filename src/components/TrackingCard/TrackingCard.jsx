@@ -20,7 +20,7 @@ export default function TrackingCard({
   };
   
   const handleIsSharedChange = (e) => {
-    console.log("checked = ", e.target.checked);
+    // console.log("checked = ", e.target.checked);
     setChecked(e.target.checked);
   };
 
