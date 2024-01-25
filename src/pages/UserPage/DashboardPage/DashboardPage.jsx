@@ -3,13 +3,16 @@ import Graph from "../../../components/Graphs/Graph";
 import "./DashboardPage.css";
 import DashboardNumbers from "../../../components/DashboardNumbers/DashboardNumbers";
 import DashboardTable from "../../../components/DashboardTable/DashboardTable";
+import { goalsToData } from "../../../utilities/helper";
 
 export default function DashboardPage() {
   const { logs, goals } = useOutletContext();
 
-  console.log(goals)
+  // console.log(goals)
+  
   const reversedLogs = structuredClone(logs);
   reversedLogs.reverse();
+  const {goalData, goalTarget} = goalsToData(reversedLogs, goals);
 
   const labels = [];
   const totals = [];
@@ -29,7 +32,7 @@ export default function DashboardPage() {
           <div className="dashboard-top-left-container">
             <div className="dashboard-graph">
               <h2>Total Assets</h2>
-              <Graph labels={labels} values={totals} color={"#000000"} />
+              <Graph labels={labels} values={totals} color={"#000000"} goals={goalData} goalTarget={goalTarget} />
             </div>
             <DashboardNumbers logs={logs} />
           </div>

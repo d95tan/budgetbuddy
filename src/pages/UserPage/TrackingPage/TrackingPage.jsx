@@ -97,6 +97,7 @@ export default function TrackingPage() {
     const temp = structuredClone(logs).concat(response);
     const sorted = sortLogs(temp);
     setLogs(sorted);
+    //TODO: update goals
     navigate("/user/dashboard")
   };
 
