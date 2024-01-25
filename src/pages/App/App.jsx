@@ -1,6 +1,6 @@
 import "../../App.css";
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "../LandingPage/LandingPage";
 import UserPage from "../UserPage/UserPage";
 import DashboardPage from "../UserPage/DashboardPage/DashboardPage";
@@ -22,7 +22,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<UserPage user={user} setUser={setUser} />}
+              element={<Navigate to="/user/dashboard" />}
             />
             <Route
               path="user"
