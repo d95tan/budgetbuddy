@@ -19,7 +19,7 @@ const userPreferenceSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      //todo: unique 
+      unique: true,
     },
     updateFrequency: {
       type: Number,
