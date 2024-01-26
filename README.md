@@ -17,10 +17,10 @@ Our app also offers features for setting savings goals, and generating reports t
 - Be deployed online. Presentations must use the deployed application.
 
 ## Technologies Used
-- MongoDB
+- ReactJS
+- NodeJS
 - Express
-- React
-- Node
+- MongoDB
 - JavaScript
 - HTML
 - CSS
@@ -34,4 +34,4 @@ ERD
 ## Icebox Features
 - Password changing
 - Comparing to S&P 500
-- Liabilities
+- Filtering for tables and graphs
