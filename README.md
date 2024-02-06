@@ -1,4 +1,4 @@
-# Project 3: BudgetBuddy
+# Project 3: BudgetBuddy 📊
 
 Welcome to BudgetBuddy! 
 
@@ -6,7 +6,7 @@ Welcome to BudgetBuddy!
 Our app also offers features for setting savings goals, and generating reports to gain insights into your financial health. 
 
 
-## Requirements for Project
+## Requirements for Project 🏗
 - Be a full-stack MERN application.
 - Connect to and perform data operations on a Mongodb database
 - Have full-CRUD data operations across any combination of the app's models (excluding the User model). For example, creating/reading/updating posts and creating/deleting comments qualifies as full-CRUD data operations.
@@ -16,7 +16,7 @@ Our app also offers features for setting savings goals, and generating reports t
 - Be styled such that the app looks and feels similar to apps we use on a daily basis - in other words, it should have a consistent and polished user interface.
 - Be deployed online. Presentations must use the deployed application.
 
-## Technologies Used
+## Technologies Used 🚀
 - ReactJS
 - NodeJS
 - Express
@@ -24,14 +24,22 @@ Our app also offers features for setting savings goals, and generating reports t
 - JavaScript
 - HTML
 - CSS
+- Ant Design
 
-## Screenshots
-Wireframe
+## Screenshots 📷
+- Initial wireframes
 ![Screenshot 1](./screenshots/Wireframe.JPG)
-ERD
+(Note: for actual view, do try our product!🌝)
+ 
+- Entity Relation Diagram (ERD)
 ![Screenshot 2](./screenshots/ERD.JPG)
 
-## Icebox Features
-- Password changing
-- Comparing to S&P 500
-- Filtering for tables and graphs
+## Pitch deck & Trello 🛣
+- [Prelim pitch](https://docs.google.com/presentation/d/1yAMAWRuXFSxkWzYuvspMYwdoa47ccMI2yM9Fj2CUxxs/edit#slide=id.g54dda1946d_6_344/)
+- [Kanban board](https://trello.com/b/oLCJqn8o/budgetbuddy/)
+
+## Icebox Features 🧊
+This game is created given a 1 week timeline. There are still many opportunities to improve the product, such as:
+- Users to be able to compare investment returns to S&P 500 or other common standards of return 
+- Users to be able to filter tables and graphs
+- Users to be able to update one's passwords 
