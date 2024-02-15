@@ -39,7 +39,7 @@ Our app also offers features for setting savings goals, and generating reports t
 - [Kanban board](https://trello.com/b/oLCJqn8o/budgetbuddy/)
 
 ## Icebox Features 🧊
-This game is created given a 1 week timeline. There are still many opportunities to improve the product, such as:
+This app is created given a 1 week timeline. There are still many opportunities to improve the product, such as:
 - Users to be able to compare investment returns to S&P 500 or other common standards of return 
 - Users to be able to filter tables and graphs
 - Users to be able to update one's passwords 
