@@ -7,7 +7,7 @@ Our app also offers features for setting savings goals, and generating reports t
 
 <img src="./screenshots/SS-Landing Page.png" alt="Landing Page" width = 600px style="border: 1px solid black">
 <img src="./screenshots/SS-Dashboard.png" alt="Dashboard" width = 600px style="border: 1px solid black">
-<img src="./screenshots/SS-Tracking Page.png" alt="Tracking Page" width = 600px style="border: 1px solid black">
+<img src="./screenshots/SS-Tracking page.png" alt="Tracking Page" width = 600px style="border: 1px solid black">
 <img src="./screenshots/SS-Edit Page.png" alt="Edit Page" width = 600px style="border: 1px solid black">
 
 
