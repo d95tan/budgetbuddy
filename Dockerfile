@@ -1,8 +1,8 @@
 # Use an official Node.js runtime as a parent image
-FROM node:22.9.0
+FROM node:21.1.0
 
 # Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy the package*.json files to the working directory
 COPY package*.json ./
