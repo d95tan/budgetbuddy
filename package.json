@@ -6,6 +6,7 @@
     "dev": "vite",
     "dev:e": "DEBUG=mern:* node --watch server.js",
     "dev:ewin": "set DEBUG=budgetBuddy:* & node --watch server.js",
+    "prod": "node server.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
