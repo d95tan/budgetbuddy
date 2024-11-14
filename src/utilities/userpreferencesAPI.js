@@ -1,4 +1,4 @@
-const BASE_URL = 'http://budgetbuddy-api.ar-dan.com/api/userpreferences';
+const BASE_URL = 'https://budgetbuddy-api.ar-dan.com/api/userpreferences';
 import { getToken } from "./usersService";
 import debug from "debug";
 

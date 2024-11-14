@@ -3,6 +3,7 @@ require("dotenv").config();
 require("./config/database");
 
 const express = require("express");
+const cors = require("cors")
 const path = require("path");
 const logger = require("morgan");
 
@@ -13,6 +14,7 @@ const goalsRouter = require("./routes/goalsRouter")
 const userpreferencesRouter = require("./routes/userpreferencesRouter")
 
 const app = express();
+app.use(cors())
 
 //* middleware block
 app.use(logger("dev"));

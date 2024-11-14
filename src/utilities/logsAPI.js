@@ -1,6 +1,6 @@
 import {getToken} from "./usersService"
 
-const baseURL = "http://budgetbuddy-api.ar-dan.com/api/logs"
+const baseURL = "https://budgetbuddy-api.ar-dan.com/api/logs"
 
 const token = getToken();
 
