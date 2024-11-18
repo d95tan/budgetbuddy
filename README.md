@@ -1,6 +1,6 @@
 # BudgetBuddy <img src="./public/Logo.svg" alt="BudgetBuddy Logo" width = 36pt />
 
-Welcome to [BudgetBuddy](https://budgetbuddy.cyclic.app/)! 
+Welcome to [BudgetBuddy](https://budgetbuddy.ar-dan.com/)! 
 
 If you're using multiple bank accounts, credit cards, or investment accounts, that's where BudgetBuddy comes in handy. Our app centralizes all your financial information in one secure location, making it easier to visualize their financial progress over time.
 Our app also offers features for setting savings goals, and generating reports to gain insights into your financial health. 
